@@ -1,0 +1,266 @@
+[
+  {
+    "cluster_id": 0,
+    "persona_label": "Java / JVM Backend Developer",
+    "size": 3262,
+    "size_pct": 13.95,
+    "dom_role": "Full-Stack",
+    "purity": 0.3161,
+    "top_skills": [
+      {
+        "feature": "lang__Java",
+        "prevalence_pct": 93.0
+      },
+      {
+        "feature": "env__IntelliJ IDEA",
+        "prevalence_pct": 78.0
+      },
+      {
+        "feature": "plat__Docker",
+        "prevalence_pct": 74.0
+      },
+      {
+        "feature": "lang__SQL",
+        "prevalence_pct": 68.0
+      },
+      {
+        "feature": "lang__JavaScript",
+        "prevalence_pct": 67.0
+      },
+      {
+        "feature": "wf__Spring Boot",
+        "prevalence_pct": 63.0
+      },
+      {
+        "feature": "db__PostgreSQL",
+        "prevalence_pct": 63.0
+      },
+      {
+        "feature": "plat__Maven (build tool)",
+        "prevalence_pct": 61.0
+      }
+    ],
+    "salary_median": 84601.5,
+    "exp_median": 16.0
+  },
+  {
+    "cluster_id": 1,
+    "persona_label": ".NET / Microsoft Ecosystem Developer",
+    "size": 5100,
+    "size_pct": 21.81,
+    "dom_role": "Full-Stack",
+    "purity": 0.4394,
+    "top_skills": [
+      {
+        "feature": "lang__C#",
+        "prevalence_pct": 96.0
+      },
+      {
+        "feature": "env__Visual Studio Code",
+        "prevalence_pct": 81.0
+      },
+      {
+        "feature": "env__Visual Studio",
+        "prevalence_pct": 79.0
+      },
+      {
+        "feature": "db__Microsoft SQL Server",
+        "prevalence_pct": 79.0
+      },
+      {
+        "feature": "lang__SQL",
+        "prevalence_pct": 78.0
+      },
+      {
+        "feature": "lang__JavaScript",
+        "prevalence_pct": 75.0
+      },
+      {
+        "feature": "wf__ASP.NET Core",
+        "prevalence_pct": 73.0
+      },
+      {
+        "feature": "lang__HTML/CSS",
+        "prevalence_pct": 73.0
+      }
+    ],
+    "salary_median": 85000.0,
+    "exp_median": 18.0
+  },
+  {
+    "cluster_id": 2,
+    "persona_label": "Cloud-Native Full-Stack Developer",
+    "size": 3281,
+    "size_pct": 14.03,
+    "dom_role": "Full-Stack",
+    "purity": 0.3283,
+    "top_skills": [
+      {
+        "feature": "lang__JavaScript",
+        "prevalence_pct": 91.0
+      },
+      {
+        "feature": "plat__Docker",
+        "prevalence_pct": 88.0
+      },
+      {
+        "feature": "lang__Python",
+        "prevalence_pct": 86.0
+      },
+      {
+        "feature": "plat__npm",
+        "prevalence_pct": 86.0
+      },
+      {
+        "feature": "lang__HTML/CSS",
+        "prevalence_pct": 85.0
+      },
+      {
+        "feature": "env__Visual Studio Code",
+        "prevalence_pct": 80.0
+      },
+      {
+        "feature": "lang__SQL",
+        "prevalence_pct": 78.0
+      },
+      {
+        "feature": "lang__TypeScript",
+        "prevalence_pct": 75.0
+      }
+    ],
+    "salary_median": 73089.0,
+    "exp_median": 12.0
+  },
+  {
+    "cluster_id": 3,
+    "persona_label": "PHP / LAMP Web Developer",
+    "size": 3182,
+    "size_pct": 13.61,
+    "dom_role": "Full-Stack",
+    "purity": 0.4513,
+    "top_skills": [
+      {
+        "feature": "lang__JavaScript",
+        "prevalence_pct": 92.0
+      },
+      {
+        "feature": "lang__HTML/CSS",
+        "prevalence_pct": 86.0
+      },
+      {
+        "feature": "lang__PHP",
+        "prevalence_pct": 76.0
+      },
+      {
+        "feature": "db__MySQL",
+        "prevalence_pct": 76.0
+      },
+      {
+        "feature": "lang__SQL",
+        "prevalence_pct": 75.0
+      },
+      {
+        "feature": "env__Visual Studio Code",
+        "prevalence_pct": 67.0
+      },
+      {
+        "feature": "wf__Node.js",
+        "prevalence_pct": 53.0
+      },
+      {
+        "feature": "db__MariaDB",
+        "prevalence_pct": 51.0
+      }
+    ],
+    "salary_median": 61264.0,
+    "exp_median": 15.0
+  },
+  {
+    "cluster_id": 4,
+    "persona_label": "Python Backend & Data Developer",
+    "size": 4236,
+    "size_pct": 18.11,
+    "dom_role": "Back-End",
+    "purity": 0.2092,
+    "top_skills": [
+      {
+        "feature": "lang__Python",
+        "prevalence_pct": 90.0
+      },
+      {
+        "feature": "plat__Docker",
+        "prevalence_pct": 75.0
+      },
+      {
+        "feature": "lang__Bash/Shell (all shells)",
+        "prevalence_pct": 66.0
+      },
+      {
+        "feature": "env__Visual Studio Code",
+        "prevalence_pct": 64.0
+      },
+      {
+        "feature": "db__PostgreSQL",
+        "prevalence_pct": 63.0
+      },
+      {
+        "feature": "plat__Pip",
+        "prevalence_pct": 63.0
+      },
+      {
+        "feature": "lang__SQL",
+        "prevalence_pct": 62.0
+      },
+      {
+        "feature": "lang__JavaScript",
+        "prevalence_pct": 48.0
+      }
+    ],
+    "salary_median": 89889.0,
+    "exp_median": 15.0
+  },
+  {
+    "cluster_id": 5,
+    "persona_label": "Modern JavaScript / TypeScript Developer",
+    "size": 4326,
+    "size_pct": 18.5,
+    "dom_role": "Full-Stack",
+    "purity": 0.4387,
+    "top_skills": [
+      {
+        "feature": "lang__JavaScript",
+        "prevalence_pct": 88.0
+      },
+      {
+        "feature": "lang__TypeScript",
+        "prevalence_pct": 78.0
+      },
+      {
+        "feature": "lang__HTML/CSS",
+        "prevalence_pct": 78.0
+      },
+      {
+        "feature": "env__Visual Studio Code",
+        "prevalence_pct": 75.0
+      },
+      {
+        "feature": "plat__npm",
+        "prevalence_pct": 75.0
+      },
+      {
+        "feature": "plat__Docker",
+        "prevalence_pct": 71.0
+      },
+      {
+        "feature": "wf__React",
+        "prevalence_pct": 68.0
+      },
+      {
+        "feature": "wf__Node.js",
+        "prevalence_pct": 67.0
+      }
+    ],
+    "salary_median": 87169.5,
+    "exp_median": 13.0
+  }
+]

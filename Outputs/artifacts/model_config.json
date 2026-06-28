@@ -1,0 +1,14 @@
+{
+  "best_model": "KMeans-UMAP",
+  "k": 6,
+  "n_init": 15,
+  "random_state": 42,
+  "feature_count": 186,
+  "n_respondents": 23387,
+  "metrics": {
+    "silhouette": 0.4049000144004822,
+    "davies_bouldin": 0.9683,
+    "purity": 0.3664,
+    "ari": 0.0321
+  }
+}

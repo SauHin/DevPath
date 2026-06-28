@@ -1,0 +1,2011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevPath — Career Profile Analyzer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-deep:      #0A0A0C;
+  --bg-mid:       #111114;
+  --bg-surface:   #18181E;
+  --bg-glass:     rgba(22,22,28,0.72);
+  --bg-glass2:    rgba(26,26,34,0.55);
+  --border:       rgba(255,255,255,0.07);
+  --border2:      rgba(255,255,255,0.13);
+  --border3:      rgba(200,165,90,0.22);
+  --text:         #EDE9DE;
+  --text2:        #A09A8A;
+  --text3:        #7e7a70;
+  --accent:       #C8A55A;
+  --accent2:      #E0BF78;
+  --accent-dim:   #7A6030;
+  --accent-glow:  rgba(200,165,90,0.18);
+  --accent-glow2: rgba(200,165,90,0.08);
+  --green:        #52BF8A;
+  --red:          #E05C5C;
+  --blue:         #5B8FD4;
+  --sans:         'Plus Jakarta Sans', sans-serif;
+  --r:            10px;
+  --r2:           16px;
+  --r3:           20px;
+  --transition:   220ms cubic-bezier(0.4,0,0.2,1);
+}
+
+html { font-size: 15px; scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--bg-deep);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 1100px 800px at 85% 5%,  rgba(190,140,40,0.22) 0%, transparent 55%),
+    radial-gradient(ellipse 700px  600px at 70% 90%, rgba(160,110,20,0.14) 0%, transparent 50%),
+    radial-gradient(ellipse 500px  400px at 95% 50%, rgba(200,165,90,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 800px  300px at 60% 40%, rgba(180,130,40,0.06) 0%, transparent 65%),
+    linear-gradient(148deg, #0A0A0C 0%, #0D0C0F 25%, #0F0E10 45%, #130F09 70%, #100D08 88%, #0A0A0C 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.panel-right::before {
+  content: '';
+  position: fixed;
+  top: 0; right: 0;
+  width: 70%;
+  height: 100%;
+  background:
+    radial-gradient(ellipse 900px 500px at 90% 15%, rgba(200,160,60,0.09) 0%, transparent 55%),
+    radial-gradient(ellipse 600px 700px at 75% 85%, rgba(160,110,30,0.07) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Layout */
+.app-shell {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/*  Left Panel */
+.panel-left {
+  background: var(--bg-glass);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border-right: 1px solid var(--border2);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  box-shadow: 1px 0 40px rgba(0,0,0,0.4);
+}
+
+.panel-left::-webkit-scrollbar { width: 3px; }
+.panel-left::-webkit-scrollbar-track { background: transparent; }
+.panel-left::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+/*  Logo */
+.logo-area {
+  padding: 28px 28px 22px;
+  border-bottom: 1px solid var(--border);
+}
+.logo-wordmark {
+  font-family: var(--sans);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-dot {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, rgba(200,165,90,0.15) 0%, rgba(120,90,30,0.25) 100%);
+  border: 1px solid rgba(200,165,90,0.35);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 16px rgba(200,165,90,0.2), 0 2px 8px rgba(0,0,0,0.4);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.04em;
+  font-family: var(--sans);
+  line-height: 1;
+}
+.logo-dot::after { display: none; }
+.logo-sub {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text3);
+  letter-spacing: 0.06em;
+  margin-top: 5px;
+  text-transform: uppercase;
+}
+
+/*  Section label  */
+.section-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/*  Skill input area  */
+.skill-input-section {
+  padding: 24px 24px;
+  flex: 1;
+}
+
+/* Autocomplete input */
+.skill-search-wrap {
+  position: relative;
+  margin-bottom: 18px;
+}
+.skill-search-input {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border2);
+  border-radius: var(--r2);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 13.5px;
+  font-weight: 400;
+  padding: 12px 42px 12px 16px;
+  outline: none;
+  transition: all var(--transition);
+  letter-spacing: 0.01em;
+}
+.skill-search-input::placeholder { color: var(--text3); }
+.skill-search-input:focus {
+  border-color: var(--border3);
+  background: rgba(200,165,90,0.04);
+  box-shadow: 0 0 0 3px rgba(200,165,90,0.07);
+}
+
+.search-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text3);
+  pointer-events: none;
+  font-size: 15px;
+}
+
+/* Autocomplete dropdown */
+.autocomplete-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0; right: 0;
+  background: var(--bg-surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--r2);
+  max-height: 270px;
+  overflow-y: auto;
+  z-index: 100;
+  display: none;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 4px 16px rgba(0,0,0,0.3);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.autocomplete-dropdown.open { display: block; }
+.autocomplete-dropdown::-webkit-scrollbar { width: 3px; }
+.autocomplete-dropdown::-webkit-scrollbar-thumb { background: var(--border2); }
+
+.ac-group-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text3);
+  padding: 12px 16px 5px;
+}
+.ac-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background var(--transition);
+  letter-spacing: 0.01em;
+}
+.ac-item:hover, .ac-item.selected {
+  background: rgba(200,165,90,0.07);
+}
+.ac-item-name { color: var(--text); font-weight: 400; }
+.ac-item-cat {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--accent-dim);
+  background: rgba(200,165,90,0.1);
+  border: 1px solid rgba(200,165,90,0.15);
+  padding: 2px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.04em;
+}
+
+/* Category sections */
+.category-section {
+  margin-bottom: 6px;
+}
+.category-toggle {
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 400;
+  transition: color var(--transition);
+  letter-spacing: 0.01em;
+}
+.category-toggle:hover { color: var(--accent2); }
+.category-toggle-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.category-count {
+  font-size: 10.5px;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--accent-dim), rgba(120,90,30,0.6));
+  color: var(--accent2);
+  padding: 2px 8px;
+  border-radius: 6px;
+  min-width: 22px;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+.category-count.empty {
+  background: rgba(255,255,255,0.05);
+  color: var(--text3);
+}
+.chevron {
+  transition: transform var(--transition);
+  color: var(--text3);
+  font-size: 11px;
+}
+.chevron.open { transform: rotate(180deg); }
+
+.category-body {
+  display: none;
+  padding: 4px 0 10px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.category-body.open { display: flex; }
+
+.skill-select {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  color: var(--text2);
+  font-family: var(--sans);
+  font-size: 12.5px;
+  padding: 9px 12px;
+  outline: none;
+  margin-bottom: 8px;
+  transition: border-color var(--transition);
+  letter-spacing: 0.01em;
+  color-scheme: dark; /* Memaksa browser merender scrollbar & overlay bawaan dengan tema gelap */
+}
+
+/*  TAMBAHKAN SELECTOR BARU INI  */
+.skill-select option {
+  background-color: var(--bg-surface); /* Mengubah warna latar dropdown list */
+  color: var(--text);                  /* Mengubah warna teks list */
+}
+
+.skill-select:focus { border-color: var(--border3); }
+
+/* Skill tags */
+.tags-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.skill-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(200,165,90,0.09);
+  border: 1px solid rgba(200,165,90,0.22);
+  color: var(--accent2);
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 4px 10px 4px 12px;
+  border-radius: 8px;
+  cursor: default;
+  animation: tagIn 180ms cubic-bezier(0.34,1.56,0.64,1);
+  letter-spacing: 0.01em;
+}
+@keyframes tagIn {
+  from { opacity: 0; transform: scale(0.85) translateY(4px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.tag-remove {
+  cursor: pointer;
+  color: var(--accent-dim);
+  font-size: 13px;
+  line-height: 1;
+  transition: color var(--transition);
+}
+.tag-remove:hover { color: var(--red); }
+
+/* CTA */
+.cta-area {
+  padding: 20px 24px 28px;
+  border-top: 1px solid var(--border);
+}
+.skill-count-bar {
+  font-size: 11.5px;
+  font-weight: 400;
+  color: var(--text2);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  letter-spacing: 0.02em;
+}
+.skill-count-num {
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.btn-analyze {
+  width: 100%;
+  background: linear-gradient(135deg, var(--accent) 0%, #B8943E 100%);
+  color: #0A0A0C;
+  border: none;
+  border-radius: var(--r2);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 14px;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(200,165,90,0.28), 0 2px 8px rgba(0,0,0,0.3);
+}
+.btn-analyze::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+.btn-analyze:hover {
+  background: linear-gradient(135deg, var(--accent2) 0%, var(--accent) 100%);
+  box-shadow: 0 6px 32px rgba(200,165,90,0.38), 0 2px 12px rgba(0,0,0,0.4);
+  transform: translateY(-1px);
+}
+.btn-analyze:active { transform: scale(0.98) translateY(0); }
+.btn-analyze:disabled {
+  background: rgba(255,255,255,0.05);
+  color: var(--text3);
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+.btn-analyze .spinner {
+  display: none;
+  width: 16px; height: 16px;
+  border: 2px solid rgba(0,0,0,0.2);
+  border-top-color: #0A0A0C;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin: 0 auto;
+}
+.btn-analyze.loading .btn-text { display: none; }
+.btn-analyze.loading .spinner { display: block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.reset-btn {
+  width: 100%;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  color: var(--text3);
+  font-family: var(--sans);
+  font-size: 12.5px;
+  font-weight: 400;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all var(--transition);
+  letter-spacing: 0.02em;
+}
+.reset-btn:hover { border-color: var(--border2); color: var(--text2); }
+
+/*  Right Panel  */
+.panel-right {
+  background: transparent;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Empty state */
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 40px;
+  gap: 18px;
+}
+.empty-glyph {
+  width: 72px; height: 72px;
+  background: rgba(200,165,90,0.08);
+  border: 1px solid var(--border3);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  box-shadow: 0 0 40px rgba(200,165,90,0.1);
+  margin-bottom: 4px;
+}
+.empty-title {
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--text2);
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+.empty-sub {
+  font-size: 13.5px;
+  font-weight: 400;
+  color: var(--text3);
+  max-width: 340px;
+  line-height: 1.75;
+  letter-spacing: 0.01em;
+}
+
+/* Results area */
+.results-area {
+  display: none;
+  flex-direction: column;
+  padding: 44px 52px;
+  gap: 44px;
+}
+.results-area.visible { display: flex; }
+
+/*  Glass card mixin  */
+.glass-card {
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px) saturate(1.3);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
+  border: 1px solid var(--border2);
+  border-radius: var(--r3);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.04) inset;
+}
+
+/*  Hero cluster card  */
+.cluster-hero {
+  background: var(--bg-glass);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid var(--border2);
+  border-radius: var(--r3);
+  padding: 32px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.35), 0 1px 0 rgba(255,255,255,0.04) inset;
+}
+.cluster-hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200,165,90,0.35), transparent);
+  pointer-events: none;
+}
+.cluster-hero::after {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 260px; height: 260px;
+  background: radial-gradient(circle, rgba(200,165,90,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cluster-eyebrow {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-dim);
+  margin-bottom: 10px;
+}
+.cluster-title {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--text) 40%, var(--text2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cluster-meta {
+  display: flex;
+  gap: 24px;
+  margin-top: 22px;
+  flex-wrap: wrap;
+}
+.meta-pill {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.meta-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+.meta-value {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.meta-value.salary { color: var(--green); }
+.meta-value.exp    { color: var(--accent); }
+
+/* Confidence badge */
+.confidence-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 22px 26px;
+  background: rgba(200,165,90,0.06);
+  border: 1px solid var(--border3);
+  border-radius: var(--r2);
+  min-width: 120px;
+  box-shadow: 0 0 24px rgba(200,165,90,0.08) inset;
+  position: relative;
+  z-index: 1;
+}
+.conf-ring {
+  position: relative;
+  width: 72px; height: 72px;
+}
+.conf-ring svg { transform: rotate(-90deg); }
+.conf-ring-bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 5; }
+.conf-ring-fill {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 188;
+  stroke-dashoffset: 188;
+  transition: stroke-dashoffset 1.4s cubic-bezier(0.4,0,0.2,1);
+  filter: drop-shadow(0 0 6px rgba(200,165,90,0.5));
+}
+.conf-value {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+.conf-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+
+/*  Section headings  */
+.section-heading {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-heading::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/*  Skill gap grid  */
+.gap-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+/* Icon mapping per category */
+.gap-item { --icon-char: '○'; }
+.gap-item[data-cat="Languages"]             { --icon-char: '{}'; }
+.gap-item[data-cat="Frameworks & Runtimes"] { --icon-char: '⧉'; }
+.gap-item[data-cat="Databases"]             { --icon-char: '▤'; }
+.gap-item[data-cat="Platforms & Tools"]     { --icon-char: '⬡'; }
+.gap-item[data-cat="Dev Environments"]      { --icon-char: '>_'; }
+.gap-item[data-cat="AI Models"]             { --icon-char: '✦'; }
+
+.gap-item {
+  background: var(--bg-glass2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.gap-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r2);
+  background: linear-gradient(135deg, rgba(200,165,90,0.04) 0%, transparent 60%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+.gap-item:hover { border-color: var(--border3); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
+.gap-item:hover::before { opacity: 1; }
+
+.gap-item-left { display: flex; align-items: center; gap: 12px; }
+
+.gap-skill-icon {
+  width: 32px; height: 32px;
+  background: rgba(200,165,90,0.1);
+  border: 1px solid rgba(200,165,90,0.18);
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--accent);
+  flex-shrink: 0;
+  font-style: normal;
+  box-shadow: 0 0 12px rgba(200,165,90,0.1);
+}
+
+.gap-skill-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 2px;
+  letter-spacing: 0.01em;
+}
+.gap-skill-cat {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--text3);
+  letter-spacing: 0.04em;
+}
+.gap-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 90px;
+}
+.gap-bar-track {
+  flex: 1;
+  height: 3px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.gap-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-dim), var(--accent));
+  border-radius: 2px;
+  width: 0;
+  transition: width 1s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 0 0 6px rgba(200,165,90,0.4);
+}
+.gap-pct {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  min-width: 34px;
+  text-align: right;
+  letter-spacing: 0.02em;
+}
+
+/*  Roadmap */
+.roadmap-list {
+  background: var(--bg-glass2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  overflow: hidden;
+}
+.roadmap-item {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  align-items: center;
+  gap: 16px;
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition);
+}
+.roadmap-item:last-child { border-bottom: none; }
+.roadmap-item:hover { background: rgba(200,165,90,0.04); }
+.roadmap-rank {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text3);
+  text-align: right;
+  letter-spacing: 0.04em;
+}
+.roadmap-skill { font-size: 13px; font-weight: 500; letter-spacing: 0.01em; }
+.roadmap-cat {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--text3);
+  margin-top: 2px;
+  letter-spacing: 0.04em;
+}
+.priority-score {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text3);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+}
+.priority-score.high { background: rgba(82,191,138,0.1); color: var(--green); border-color: rgba(82,191,138,0.2); }
+.priority-score.med  { background: rgba(200,165,90,0.1); color: var(--accent); border-color: rgba(200,165,90,0.2); }
+
+/*  Role overview card  */
+.cluster-desc-card {
+  background: var(--bg-glass2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.cluster-desc-body {
+  font-size: 13.5px;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--text2);
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+.cluster-desc-responsibilities {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.cluster-desc-resp-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text3);
+}
+.cluster-resp-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.cluster-resp-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text2);
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+.cluster-resp-list li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 5px;
+  height: 5px;
+  margin-top: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 6px rgba(200,165,90,0.5);
+}
+
+/*  Cluster comparison  */
+.cluster-compare-list {
+  background: var(--bg-glass2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  overflow: hidden;
+}
+.compare-item {
+  display: grid;
+  grid-template-columns: 200px 1fr 60px;
+  gap: 16px;
+  align-items: center;
+  padding: 13px 20px;
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition);
+}
+.compare-item:last-child { border-bottom: none; }
+.compare-item:hover { background: rgba(255,255,255,0.02); }
+.compare-item.is-match { background: rgba(200,165,90,0.05); }
+.compare-item.is-match .compare-name { color: var(--accent); font-weight: 600; }
+.compare-name { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 400; letter-spacing: 0.01em; }
+.compare-bar-track {
+  height: 3px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.compare-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  width: 0;
+  transition: width 1s cubic-bezier(0.4,0,0.2,1);
+}
+.compare-item.is-match .compare-bar-fill { background: linear-gradient(90deg, var(--accent-dim), var(--accent)); box-shadow: 0 0 6px rgba(200,165,90,0.4); }
+.compare-item:not(.is-match) .compare-bar-fill { background: rgba(255,255,255,0.08); }
+.compare-dist {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--text3);
+  text-align: right;
+  letter-spacing: 0.03em;
+}
+
+/*  Runner-up note  */
+.runner-up-note {
+  background: rgba(200,165,90,0.05);
+  border: 1px solid var(--border3);
+  border-radius: var(--r);
+  padding: 14px 20px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text2);
+  margin-top: 16px;
+  letter-spacing: 0.01em;
+  line-height: 1.6;
+}
+.runner-up-note strong { color: var(--text); font-weight: 600; }
+
+/*  Error state  */
+.error-banner {
+  background: rgba(224,92,92,0.07);
+  border: 1px solid rgba(224,92,92,0.2);
+  border-radius: var(--r);
+  color: var(--red);
+  font-size: 13px;
+  font-weight: 400;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  display: none;
+  letter-spacing: 0.01em;
+  border-radius: var(--r2);
+}
+.error-banner.visible { display: block; }
+
+/*  Loading overlay  */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,10,12,0.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.loading-overlay.visible { display: flex; }
+.loading-card {
+  background: var(--bg-glass);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border2);
+  border-radius: var(--r3);
+  padding: 44px 64px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+  position: relative;
+  overflow: hidden;
+}
+.loading-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+}
+.loading-spinner-large {
+  width: 44px; height: 44px;
+  border: 3px solid rgba(255,255,255,0.05);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.85s linear infinite;
+  box-shadow: 0 0 20px rgba(200,165,90,0.2);
+}
+.loading-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text2);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/*  Radar */
+.radar-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+.radar-svg-wrap { position: relative; }
+.radar-legend { display: flex; flex-direction: column; gap: 12px; }
+.radar-legend-item { display: flex; align-items: center; gap: 12px; }
+.radar-legend-label { font-size: 12.5px; color: var(--text2); flex: 1; font-weight: 400; letter-spacing: 0.01em; }
+.radar-legend-bar { width: 64px; height: 3px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; }
+.radar-legend-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-dim), var(--accent));
+  border-radius: 2px;
+  width: 0;
+  transition: width 1.1s cubic-bezier(0.4,0,0.2,1);
+}
+.radar-legend-val { font-size: 11px; font-weight: 600; color: var(--accent); min-width: 28px; text-align: right; letter-spacing: 0.02em; }
+
+/*  Stat cards row (new)  */
+.stat-cards-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+.stat-card {
+  background: rgba(18,16,12,0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition);
+}
+.stat-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: 2px 2px 0 0;
+  opacity: 0.7;
+}
+.stat-card.salary::after { background: linear-gradient(90deg, var(--green), rgba(82,191,138,0.3)); }
+.stat-card.exp::after    { background: linear-gradient(90deg, var(--accent), rgba(200,165,90,0.3)); }
+.stat-card.pop::after    { background: linear-gradient(90deg, var(--blue), rgba(91,143,212,0.3)); }
+.stat-card:hover { border-color: var(--border2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+.stat-card-icon {
+  font-size: 18px;
+  /* test */
+  font-weight: 700; 
+  margin-bottom: 4px;
+}
+.stat-card-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+.stat-card-value {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.stat-card-value {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+.stat-card.salary .stat-card-value, .stat-card.salary .stat-card-icon { color: var(--green); }
+.stat-card.exp    .stat-card-value, .stat-card.exp    .stat-card-icon { color: var(--accent); }
+.stat-card.pop    .stat-card-value, .stat-card.pop    .stat-card-icon { color: var(--blue); }
+.stat-card-sub {
+  font-size: 10.5px;
+  color: var(--text3);
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+/*  Hero redesign additions  */
+.hero-top-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 28px;
+  align-items: start;
+}
+.persona-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.persona-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(200,165,90,0.1);
+  border: 1px solid rgba(200,165,90,0.25);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+.persona-tag-dot {
+  width: 5px; height: 5px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--accent);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 4px var(--accent); }
+  50% { opacity: 0.6; box-shadow: 0 0 10px var(--accent); }
+}
+.skills-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+.skill-chip {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text2);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.02em;
+  transition: all var(--transition);
+}
+.skill-chip:hover { background: rgba(200,165,90,0.08); border-color: var(--border3); color: var(--accent2); }
+
+/*  Two-column results layout  */
+.results-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.results-two-col .roadmap-list,
+.results-two-col .cluster-compare-list { height: 100%; }
+
+/*  Role overview split layout  */
+.role-overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 16px;
+}
+.resp-card {
+  background: rgba(16,14,10,0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.resp-card-title {
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text3);
+}
+
+/*  Section heading accent line  */
+.section-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.section-heading-row .section-heading { margin-bottom: 0; flex: 1; }
+.section-heading-badge {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text3);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+}
+
+/*  Cluster compare: horizontal pill style  */
+.compare-item-v2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 20px;
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition);
+}
+.compare-item-v2:last-child { border-bottom: none; }
+.compare-item-v2:hover { background: rgba(255,255,255,0.02); }
+.compare-item-v2.is-match { background: rgba(200,165,90,0.05); }
+.cmp-rank {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text3);
+  min-width: 20px;
+  text-align: right;
+}
+.cmp-name {
+  flex: 1;
+  font-size: 12.5px;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.01em;
+}
+.compare-item-v2.is-match .cmp-name { color: var(--accent); font-weight: 600; }
+.cmp-bar-track {
+  width: 80px;
+  height: 4px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 2px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.cmp-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  width: 0;
+  transition: width 1s cubic-bezier(0.4,0,0.2,1);
+}
+.compare-item-v2.is-match .cmp-bar-fill { background: linear-gradient(90deg, var(--accent-dim), var(--accent)); }
+.compare-item-v2:not(.is-match) .cmp-bar-fill { background: rgba(255,255,255,0.1); }
+.cmp-match-badge {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.compare-item-v2.is-match .cmp-match-badge { background: rgba(200,165,90,0.15); color: var(--accent); border: 1px solid rgba(200,165,90,0.3); }
+.compare-item-v2:not(.is-match) .cmp-match-badge { color: var(--text3); background: none; min-width: 42px; text-align: right; }
+
+@media (max-width: 1100px) {
+  .app-shell { grid-template-columns: 1fr; }
+  .panel-left { position: relative; height: auto; }
+  .results-area { padding: 28px 20px; }
+  .gap-grid { grid-template-columns: 1fr; }
+  .cluster-hero { grid-template-columns: 1fr; }
+  .hero-top-row { grid-template-columns: 1fr; }
+  .results-two-col { grid-template-columns: 1fr; }
+  .role-overview-grid { grid-template-columns: 1fr; }
+  .stat-cards-row { grid-template-columns: 1fr; gap: 8px; }
+}
+</style>
+</head>
+
+<body>
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-card">
+    <div class="loading-spinner-large"></div>
+    <div class="loading-text">Analyzing your profile...</div>
+  </div>
+</div>
+
+<div class="app-shell">
+  <!--  LEFT PANEL  -->
+  <aside class="panel-left">
+    <div class="logo-area">
+      <div class="logo-wordmark">
+        <span class="logo-dot">&lt;/&gt;</span>
+        DevPath
+      </div>
+      <div class="logo-sub">Career Profile Analyzer</div>
+    </div>
+
+    <div class="skill-input-section">
+      <div class="section-label">Build your profile</div>
+
+      <!-- Global search / autocomplete -->
+      <div class="skill-search-wrap">
+        <input
+          type="text"
+          class="skill-search-input"
+          id="globalSearch"
+          placeholder="Search any skill..."
+          autocomplete="off"
+        >
+        <span class="search-icon">&#x2315;</span>
+        <div class="autocomplete-dropdown" id="acDropdown"></div>
+      </div>
+
+      <div class="error-banner" id="errorBanner"></div>
+
+      <!-- Category sections -->
+      <div id="categoryContainer"></div>
+    </div>
+
+    <div class="cta-area">
+      <div class="skill-count-bar">
+        <span>Skills added</span>
+        <span class="skill-count-num" id="skillCountNum">0</span>
+      </div>
+      <button class="btn-analyze" id="analyzeBtn" disabled>
+        <span class="btn-text">Analyze Profile</span>
+        <span class="spinner"></span>
+      </button>
+      <button class="reset-btn" id="resetBtn">Clear all</button>
+    </div>
+  </aside>
+
+  <!--  RIGHT PANEL  -->
+  <main class="panel-right" id="panelRight">
+    <!-- Empty state -->
+    <div class="empty-state" id="emptyState">
+      <div class="empty-glyph">◈</div>
+      <div class="empty-title">Add your skills to begin</div>
+      <div class="empty-sub">
+        Select the technologies you work with daily. We'll match your profile against
+        23,000+ real developer profiles from the Stack Overflow Survey 2025.
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="results-area" id="resultsArea">
+
+      <!--  HERO SECTION  -->
+      <div>
+        <div class="section-heading">Your developer profile</div>
+        <div class="cluster-hero">
+
+          <div class="hero-top-row">
+            <!-- Left: identity -->
+            <div>
+              <div class="persona-badge-row">
+                <span class="persona-tag"><span class="persona-tag-dot"></span>Persona match</span>
+                <span id="clusterEyebrow" style="font-size:10.5px;color:var(--text3);font-weight:500;letter-spacing:0.05em"></span>
+              </div>
+              <div class="cluster-title" id="clusterTitle">—</div>
+              <!-- Active skills chips -->
+              <div class="skills-chip-row" id="activeSkillsChips"></div>
+            </div>
+
+            <!-- Right: confidence ring -->
+            <div class="confidence-badge">
+              <div class="conf-ring">
+                <svg viewBox="0 0 72 72" width="72" height="72">
+                  <circle class="conf-ring-bg" cx="36" cy="36" r="30"/>
+                  <circle class="conf-ring-fill" id="confRingFill" cx="36" cy="36" r="30"/>
+                </svg>
+                <div class="conf-value" id="confValue">—</div>
+              </div>
+              <div class="conf-label">Confidence</div>
+            </div>
+          </div>
+
+          <!-- Stat cards row -->
+          <div class="stat-cards-row">
+            <div class="stat-card salary">
+              <div class="stat-card-icon">$</div>
+              <div class="stat-card-label">Median Salary</div>
+              <div class="stat-card-value" id="metaSalary">—</div>
+              <div class="stat-card-sub">Annual estimate</div>
+            </div>
+            <div class="stat-card exp">
+              <div class="stat-card-icon">★</div>
+              <div class="stat-card-label">Median Experience</div>
+              <div class="stat-card-value" id="metaExp">—</div>
+              <div class="stat-card-sub">Years of coding</div>
+            </div>
+            <div class="stat-card pop">
+              <div class="stat-card-icon">∴</div>
+              <div class="stat-card-label">Developer Population</div>
+              <div class="stat-card-value" id="metaPop">—</div>
+              <div class="stat-card-sub">Of all developers</div>
+            </div>
+          </div>
+
+        </div>
+        <div class="runner-up-note" id="runnerUpNote" style="display:none"></div>
+      </div>
+
+      <!--  ROLE OVERVIEW  -->
+      <div>
+        <div class="section-heading-row">
+          <div class="section-heading">Role overview</div>
+        </div>
+        <div class="role-overview-grid">
+          <!-- Left: description -->
+          <div class="cluster-desc-card" id="clusterDescCard">
+            <p class="cluster-desc-body" id="clusterDescBody"></p>
+          </div>
+          <!-- Right: responsibilities -->
+          <div class="resp-card">
+            <div class="resp-card-title">Key responsibilities</div>
+            <ul class="cluster-resp-list" id="clusterRespList"></ul>
+          </div>
+        </div>
+      </div>
+
+      <!--  SKILLS TO EXPLORE  -->
+      <div>
+        <div class="section-heading-row">
+          <div class="section-heading">Skills to explore</div>
+          <span class="section-heading-badge" id="gapBadge">— gaps</span>
+        </div>
+        <div class="gap-grid" id="gapGrid"></div>
+      </div>
+
+      <!--  ROADMAP + CLUSTER COMPARISON side by side  -->
+      <div class="results-two-col">
+        <div>
+          <div class="section-heading-row">
+            <div class="section-heading">Learning roadmap</div>
+            <span class="section-heading-badge">Priority ranked</span>
+          </div>
+          <div class="roadmap-list" id="roadmapList"></div>
+        </div>
+        <div>
+          <div class="section-heading-row">
+            <div class="section-heading">Persona distances</div>
+            <span class="section-heading-badge">Closest match</span>
+          </div>
+          <div class="cluster-compare-list" id="compareList"></div>
+        </div>
+      </div>
+
+    </div><!-- /results-area -->
+  </main>
+</div>
+<script>
+//  State
+const CATEGORIES = [
+  { col: 'LanguageHaveWorkedWith',  label: 'Languages',            prefix: 'lang' },
+  { col: 'WebframeHaveWorkedWith',  label: 'Frameworks & Runtimes',prefix: 'wf'   },
+  { col: 'DatabaseHaveWorkedWith',  label: 'Databases',            prefix: 'db'   },
+  { col: 'PlatformHaveWorkedWith',  label: 'Platforms & Tools',    prefix: 'plat' },
+  { col: 'DevEnvsHaveWorkedWith',   label: 'Dev Environments',     prefix: 'env'  },
+  { col: 'AIModelsHaveWorkedWith',  label: 'AI Models',            prefix: 'ai'   },
+];
+
+let vocabulary = [];                    // full skill list from API
+let selectedSkills = {};                // { col: Set<string> }
+CATEGORIES.forEach(c => selectedSkills[c.col] = new Set());
+let acIndex = -1;                       // autocomplete keyboard index
+let acFiltered = [];                    // current filtered AC items
+
+//  DOM refs
+const globalSearch  = document.getElementById('globalSearch');
+const acDropdown    = document.getElementById('acDropdown');
+const catContainer  = document.getElementById('categoryContainer');
+const analyzeBtn    = document.getElementById('analyzeBtn');
+const resetBtn      = document.getElementById('resetBtn');
+const skillCountNum = document.getElementById('skillCountNum');
+const errorBanner   = document.getElementById('errorBanner');
+const emptyState    = document.getElementById('emptyState');
+const resultsArea   = document.getElementById('resultsArea');
+const loadingOverlay= document.getElementById('loadingOverlay');
+
+//  Init
+async function init() {
+  await loadVocabulary();
+  buildCategoryUI();
+}
+
+async function loadVocabulary() {
+  try {
+    const res = await fetch('/api/vocabulary');
+    const data = await res.json();
+    vocabulary = data.skills || [];
+  } catch(e) {
+    console.warn('Vocabulary load failed, using empty list', e);
+  }
+}
+
+//  Category UI
+function buildCategoryUI() {
+  catContainer.innerHTML = '';
+  CATEGORIES.forEach(cat => {
+    const div = document.createElement('div');
+    div.className = 'category-section';
+    div.innerHTML = `
+      <button class="category-toggle" data-col="${cat.col}">
+        <span class="category-toggle-left">
+          <span style="font-size:13px;font-weight:400;color:var(--text2);letter-spacing:0.01em">${cat.label}</span>
+          <span class="category-count empty" id="cnt-${cat.col}">0</span>
+        </span>
+        <span class="chevron" id="chev-${cat.col}">&#x2335;</span>
+      </button>
+      <div class="category-body" id="body-${cat.col}">
+        <select class="skill-select" id="sel-${cat.col}">
+          <option value="">Select ${cat.label.toLowerCase()}...</option>
+          ${vocabulary
+            .filter(s => s.prefix === cat.prefix)
+            .map(s => `<option value="${s.name}">${s.name}</option>`)
+            .join('')}
+        </select>
+        <div class="tags-wrap" id="tags-${cat.col}"></div>
+      </div>`;
+    catContainer.appendChild(div);
+
+    // Toggle open/close
+    div.querySelector('.category-toggle').addEventListener('click', () => {
+      const body  = document.getElementById(`body-${cat.col}`);
+      const chev  = document.getElementById(`chev-${cat.col}`);
+      const isOpen = body.classList.toggle('open');
+      chev.classList.toggle('open', isOpen);
+    });
+
+    // Dropdown select
+    const sel = div.querySelector(`#sel-${cat.col}`);
+    sel.addEventListener('change', () => {
+      if (sel.value) { addSkill(cat.col, sel.value); sel.value = ''; }
+    });
+  });
+}
+
+//  Skill management 
+function addSkill(col, skillName) {
+  if (!skillName || selectedSkills[col].has(skillName)) return;
+  selectedSkills[col].add(skillName);
+  renderTags(col);
+  updateCount();
+}
+
+function removeSkill(col, skillName) {
+  selectedSkills[col].delete(skillName);
+  renderTags(col);
+  updateCount();
+}
+
+function renderTags(col) {
+  const wrap = document.getElementById(`tags-${col}`);
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  selectedSkills[col].forEach(skill => {
+    const tag = document.createElement('span');
+    tag.className = 'skill-tag';
+    tag.innerHTML = `${skill}<span class="tag-remove" data-col="${col}" data-skill="${skill}">&#x2715;</span>`;
+    tag.querySelector('.tag-remove').addEventListener('click', e => {
+      removeSkill(e.target.dataset.col, e.target.dataset.skill);
+    });
+    wrap.appendChild(tag);
+  });
+  // Update count badge
+  const cnt = document.getElementById(`cnt-${col}`);
+  if (cnt) {
+    const n = selectedSkills[col].size;
+    cnt.textContent = n;
+    cnt.classList.toggle('empty', n === 0);
+  }
+}
+
+function updateCount() {
+  const total = Object.values(selectedSkills).reduce((s, set) => s + set.size, 0);
+  skillCountNum.textContent = total;
+  analyzeBtn.disabled = total < 2;
+}
+
+function resetAll() {
+  CATEGORIES.forEach(c => { selectedSkills[c.col] = new Set(); renderTags(c.col); });
+  updateCount();
+  emptyState.style.display = '';
+  resultsArea.classList.remove('visible');
+  showError('');
+}
+resetBtn.addEventListener('click', resetAll);
+
+//  Autocomplete
+globalSearch.addEventListener('input', () => {
+  const q = globalSearch.value.trim().toLowerCase();
+  if (q.length < 1) { closeAC(); return; }
+  acFiltered = vocabulary.filter(s => s.name.toLowerCase().includes(q)).slice(0, 40);
+  renderAC();
+});
+
+globalSearch.addEventListener('keydown', e => {
+  if (!acDropdown.classList.contains('open')) return;
+  const items = acDropdown.querySelectorAll('.ac-item');
+  if (e.key === 'ArrowDown') { e.preventDefault(); acIndex = Math.min(acIndex + 1, items.length - 1); highlightAC(items); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); acIndex = Math.max(acIndex - 1, 0); highlightAC(items); }
+  else if (e.key === 'Enter') { e.preventDefault(); if (acIndex >= 0 && items[acIndex]) items[acIndex].click(); }
+  else if (e.key === 'Escape') closeAC();
+});
+
+function highlightAC(items) {
+  items.forEach((el, i) => el.classList.toggle('selected', i === acIndex));
+  if (items[acIndex]) items[acIndex].scrollIntoView({ block: 'nearest' });
+}
+
+function renderAC() {
+  acDropdown.innerHTML = '';
+  acIndex = -1;
+  if (!acFiltered.length) { closeAC(); return; }
+
+  // Group by category
+  const grouped = {};
+  acFiltered.forEach(s => {
+    if (!grouped[s.category]) grouped[s.category] = [];
+    grouped[s.category].push(s);
+  });
+
+  Object.entries(grouped).forEach(([cat, skills]) => {
+    const gl = document.createElement('div');
+    gl.className = 'ac-group-label';
+    gl.textContent = cat;
+    acDropdown.appendChild(gl);
+
+    skills.forEach(s => {
+      const col = CATEGORIES.find(c => c.prefix === s.prefix)?.col;
+      const already = col && selectedSkills[col].has(s.name);
+      const item = document.createElement('div');
+      item.className = 'ac-item' + (already ? ' selected' : '');
+      item.innerHTML = `<span class="ac-item-name">${highlight(s.name, globalSearch.value)}</span>
+                        <span class="ac-item-cat">${s.category}</span>`;
+      item.addEventListener('click', () => {
+        if (col && !already) { addSkill(col, s.name); openCategory(col); }
+        globalSearch.value = '';
+        closeAC();
+      });
+      acDropdown.appendChild(item);
+    });
+  });
+
+  acDropdown.classList.add('open');
+}
+
+function highlight(text, query) {
+  if (!query) return text;
+  const re = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+  return text.replace(re, '<mark style="background:rgba(200,169,110,0.25);color:var(--accent);border-radius:2px">$1</mark>');
+}
+
+function closeAC() {
+  acDropdown.classList.remove('open');
+  acDropdown.innerHTML = '';
+  acIndex = -1;
+}
+
+function openCategory(col) {
+  const body = document.getElementById(`body-${col}`);
+  const chev = document.getElementById(`chev-${col}`);
+  if (body && !body.classList.contains('open')) {
+    body.classList.add('open');
+    if (chev) chev.classList.add('open');
+  }
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.skill-search-wrap')) closeAC();
+});
+
+//  Analyze
+analyzeBtn.addEventListener('click', analyze);
+
+async function analyze() {
+  const skills = {};
+  let total = 0;
+  CATEGORIES.forEach(c => {
+    skills[c.col] = [...selectedSkills[c.col]];
+    total += skills[c.col].length;
+  });
+
+  showError('');
+  loadingOverlay.classList.add('visible');
+  analyzeBtn.classList.add('loading');
+
+  try {
+    const res  = await fetch('/api/predict', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ skills }),
+    });
+    const data = await res.json();
+
+    if (!res.ok) { showError(data.error || 'Analysis failed.'); return; }
+    renderResults(data);
+  } catch(e) {
+    showError('Connection error — make sure the server is running.');
+  } finally {
+    loadingOverlay.classList.remove('visible');
+    analyzeBtn.classList.remove('loading');
+  }
+}
+
+//  Render results 
+function renderResults(data) {
+  emptyState.style.display = 'none';
+  resultsArea.classList.add('visible');
+  document.getElementById('panelRight').scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Hero
+  document.getElementById('clusterEyebrow').textContent =
+    `Cluster ${data.cluster_id} · ${data.total_skills_entered} skills analyzed`;
+  document.getElementById('clusterTitle').textContent = data.persona_label;
+
+  const p = data.profile || {};
+  document.getElementById('metaSalary').textContent =
+    p.salary_median ? `$${Math.round(p.salary_median).toLocaleString()}/yr` : 'N/A';
+  document.getElementById('metaExp').textContent =
+    p.exp_median ? `${p.exp_median} yrs` : 'N/A';
+  document.getElementById('metaPop').textContent =
+    p.size_pct ? `${p.size_pct}% of devs` : 'N/A';
+
+  // Active skills chips (show top 8 skills)
+  const chipsEl = document.getElementById('activeSkillsChips');
+  if (chipsEl && data.active_skills && data.active_skills.length) {
+    const topSkills = data.active_skills.slice(0, 8);
+    chipsEl.innerHTML = topSkills.map(s =>
+      `<span class="skill-chip">${s.name}</span>`
+    ).join('') + (data.active_skills.length > 8
+      ? `<span class="skill-chip" style="color:var(--text3)">+${data.active_skills.length - 8} more</span>`
+      : '');
+  }
+
+  // Confidence ring
+  const conf = Math.round(data.confidence * 100);
+  document.getElementById('confValue').textContent = conf + '%';
+  const circ = 2 * Math.PI * 30;
+  const fill  = document.getElementById('confRingFill');
+  requestAnimationFrame(() => {
+    fill.style.strokeDashoffset = circ - (circ * data.confidence);
+  });
+
+  // Runner-up
+  const runnerNote = document.getElementById('runnerUpNote');
+  if (data.runner_up_label) {
+    runnerNote.style.display = '';
+    runnerNote.innerHTML =
+      `Second closest match: <strong>${data.runner_up_label}</strong>. Your profile overlaps with both personas.`;
+  } else {
+    runnerNote.style.display = 'none';
+  }
+
+  // Gap badge count
+  const gapBadge = document.getElementById('gapBadge');
+  if (gapBadge) gapBadge.textContent = `${(data.skill_gap || []).length} gaps`;
+
+  // Cluster description
+  renderClusterDesc(data.cluster_id, data.persona_label);
+
+  // Skill gap
+  renderGap(data.skill_gap || []);
+
+  // Roadmap
+  renderRoadmap(data.roadmap || []);
+
+  // Cluster comparison
+  renderCompare(data.all_cluster_distances || []);
+}
+
+//  Cluster description 
+const CLUSTER_DESCRIPTIONS = {
+  // Deskripsi diindeks berdasarkan persona_label (case-insensitive trim)
+  // Fallback ke heuristic jika label tidak ditemukan
+  "Full-Stack Developer": {
+    summary: "Full-Stack Developers bridge the gap between frontend and backend systems. They design and implement end-to-end features, from crafting responsive user interfaces to building scalable server-side APIs and managing databases. They are expected to own features across the entire stack and collaborate closely with designers, product managers, and infrastructure engineers.",
+    responsibilities: [
+      "Design and develop both client-side UIs and server-side APIs",
+      "Integrate frontend applications with REST or GraphQL backends",
+      "Manage relational and non-relational databases and write efficient queries",
+      "Participate in code reviews and maintain code quality across the stack",
+      "Deploy applications and monitor performance in production environments",
+      "Collaborate with product and design teams to translate requirements into features",
+    ]
+  },
+  "Frontend Developer": {
+    summary: "Frontend Developers specialise in building the visual and interactive layer of web applications. They work closely with designers to implement pixel-perfect, accessible, and performant user interfaces using modern JavaScript frameworks and CSS tooling. Performance optimisation, browser compatibility, and user experience are central to their day-to-day work.",
+    responsibilities: [
+      "Build and maintain responsive, accessible UI components using React, Vue, or Angular",
+      "Implement state management and client-side routing",
+      "Optimise page load performance and Core Web Vitals metrics",
+      "Write unit and integration tests for UI components",
+      "Consume REST or GraphQL APIs and handle data rendering",
+      "Collaborate with UX/UI designers to ensure design fidelity",
+    ]
+  },
+  "Backend Developer": {
+    summary: "Backend Developers design, build, and maintain the server-side logic, APIs, and data infrastructure that power applications. They focus on reliability, scalability, and security of the systems that frontend applications and external clients depend on. They often work on microservices, authentication, data pipelines, and integration with third-party services.",
+    responsibilities: [
+      "Design and implement RESTful or GraphQL APIs",
+      "Build and maintain microservices and server-side business logic",
+      "Design database schemas and optimise query performance",
+      "Implement authentication, authorisation, and security best practices",
+      "Write automated tests and ensure code reliability",
+      "Integrate with external services, message queues, and third-party APIs",
+    ]
+  },
+  "DevOps / Cloud Engineer": {
+    summary: "DevOps and Cloud Engineers build and maintain the infrastructure, CI/CD pipelines, and operational tooling that enable development teams to ship software reliably and at scale. They work at the intersection of software engineering and systems administration, automating repetitive operations and ensuring high availability of production services.",
+    responsibilities: [
+      "Design, provision, and manage cloud infrastructure (AWS, GCP, Azure)",
+      "Build and maintain CI/CD pipelines for automated testing and deployment",
+      "Containerise applications and manage Kubernetes clusters",
+      "Monitor system health, set up alerts, and perform incident response",
+      "Implement infrastructure-as-code using Terraform or Pulumi",
+      "Enforce security policies, manage secrets, and conduct access reviews",
+    ]
+  },
+  "Data Engineer / ML Engineer": {
+    summary: "Data Engineers and ML Engineers build the pipelines, platforms, and infrastructure that collect, transform, and serve data for analytics and machine learning workloads. They bridge the gap between raw data sources and the models or dashboards that consume them, ensuring data quality, availability, and scalability.",
+    responsibilities: [
+      "Design and build ETL/ELT pipelines to ingest and transform data",
+      "Maintain data warehouses and data lake architectures",
+      "Develop and deploy machine learning models to production",
+      "Monitor data quality and pipeline reliability",
+      "Collaborate with data scientists to operationalise experiments",
+      "Optimise data storage and query performance at scale",
+    ]
+  },
+  "Mobile Developer": {
+    summary: "Mobile Developers build native or cross-platform applications for iOS and Android devices. They focus on delivering smooth, performant user experiences within the constraints of mobile hardware, operating system APIs, and app store guidelines. They often work alongside backend engineers to integrate with APIs and push notification services.",
+    responsibilities: [
+      "Develop and maintain iOS and/or Android mobile applications",
+      "Implement responsive and touch-optimised user interfaces",
+      "Integrate mobile apps with backend APIs and third-party SDKs",
+      "Handle device capabilities such as camera, GPS, and push notifications",
+      "Publish, update, and manage app releases through app stores",
+      "Diagnose and fix performance issues, crashes, and memory leaks",
+    ]
+  },
+  "Systems / Embedded Developer": {
+    summary: "Systems and Embedded Developers work close to the hardware, building operating system components, device drivers, firmware, and performance-critical software. They write low-level code in C, C++, or Rust and must balance correctness, memory safety, and deterministic timing constraints in resource-constrained environments.",
+    responsibilities: [
+      "Write and maintain low-level firmware and device drivers",
+      "Optimise code for performance, memory footprint, and power consumption",
+      "Interface software with hardware peripherals via I2C, SPI, UART, or similar protocols",
+      "Debug hardware/software interactions using oscilloscopes and logic analysers",
+      "Implement real-time scheduling and interrupt handling",
+      "Ensure software reliability and safety for embedded deployments",
+    ]
+  },
+  "Security Engineer": {
+    summary: "Security Engineers protect systems, applications, and data from threats and vulnerabilities. They conduct threat modelling, penetration testing, code reviews, and implement security controls across the software development lifecycle. They work cross-functionally to embed security practices into engineering workflows rather than treating it as an afterthought.",
+    responsibilities: [
+      "Perform security code reviews and identify vulnerabilities in applications",
+      "Conduct penetration testing and threat modelling exercises",
+      "Implement and monitor security tooling such as SAST, DAST, and SIEM",
+      "Respond to and investigate security incidents",
+      "Define and enforce security policies and compliance requirements",
+      "Educate engineering teams on secure coding practices",
+    ]
+  },
+};
+
+// Heuristic fallback berdasarkan kata kunci di persona_label
+function inferDescription(label) {
+  const l = (label || '').toLowerCase();
+  if (l.includes('full') && l.includes('stack'))  return CLUSTER_DESCRIPTIONS["Full-Stack Developer"];
+  if (l.includes('front'))                         return CLUSTER_DESCRIPTIONS["Frontend Developer"];
+  if (l.includes('back'))                          return CLUSTER_DESCRIPTIONS["Backend Developer"];
+  if (l.includes('devops') || l.includes('cloud') || l.includes('infra')) return CLUSTER_DESCRIPTIONS["DevOps / Cloud Engineer"];
+  if (l.includes('data') || l.includes('ml') || l.includes('machine'))    return CLUSTER_DESCRIPTIONS["Data Engineer / ML Engineer"];
+  if (l.includes('mobile') || l.includes('ios') || l.includes('android')) return CLUSTER_DESCRIPTIONS["Mobile Developer"];
+  if (l.includes('system') || l.includes('embed') || l.includes('firmware')) return CLUSTER_DESCRIPTIONS["Systems / Embedded Developer"];
+  if (l.includes('security') || l.includes('sec'))  return CLUSTER_DESCRIPTIONS["Security Engineer"];
+  return null;
+}
+
+function renderClusterDesc(clusterId, personaLabel) {
+  const bodyEl = document.getElementById('clusterDescBody');
+  const listEl = document.getElementById('clusterRespList');
+
+  const labelKey = Object.keys(CLUSTER_DESCRIPTIONS).find(
+    k => k.trim().toLowerCase() === (personaLabel || '').trim().toLowerCase()
+  );
+  const desc = labelKey
+    ? CLUSTER_DESCRIPTIONS[labelKey]
+    : inferDescription(personaLabel);
+
+  if (!desc) {
+    bodyEl.textContent = `${personaLabel} professionals work across a range of software engineering disciplines, contributing to system design, implementation, and maintenance of production-grade software.`;
+    listEl.innerHTML = '<li>Contribute to software design and implementation</li><li>Collaborate with cross-functional engineering teams</li><li>Maintain and improve existing codebases</li>';
+    return;
+  }
+
+  bodyEl.textContent = desc.summary;
+  listEl.innerHTML = desc.responsibilities
+    .map(r => `<li>${r}</li>`)
+    .join('');
+}
+
+//  Gap grid
+function renderGap(gaps) {
+  const grid = document.getElementById('gapGrid');
+  if (!gaps.length) {
+    grid.innerHTML = '<div style="color:var(--text3);font-size:13px;grid-column:1/-1;padding:8px 0;letter-spacing:0.01em">No significant gaps detected — your profile aligns well with this cluster.</div>';
+    return;
+  }
+  const iconMap = {
+    'Languages': '{}',
+    'Frameworks & Runtimes': '⧉',
+    'Databases': '▤',
+    'Platforms & Tools': '⬡',
+    'Dev Environments': '>_',
+    'AI Models': '✦',
+  };
+  grid.innerHTML = gaps.map((g, idx) => `
+    <div class="gap-item" data-cat="${g.category}">
+      <div class="gap-item-left">
+        <span class="gap-skill-icon" aria-hidden="true">${iconMap[g.category] || '○'}</span>
+        <div>
+          <div class="gap-skill-name">${g.skill}</div>
+          <div class="gap-skill-cat">${g.category}</div>
+        </div>
+      </div>
+      <div class="gap-bar-wrap">
+        <div class="gap-bar-track">
+          <div class="gap-bar-fill" id="gap-bar-${idx}"></div>
+        </div>
+        <span class="gap-pct">${g.cluster_prevalence}%</span>
+      </div>
+    </div>`).join('');
+
+  setTimeout(() => {
+    gaps.forEach((g, idx) => {
+      const el = document.getElementById(`gap-bar-${idx}`);
+      if (el) el.style.width = `${g.cluster_prevalence}%`;
+    });
+  }, 120);
+}
+
+//  Roadmap
+function renderRoadmap(roadmap) {
+  const list = document.getElementById('roadmapList');
+  if (!roadmap.length) {
+    list.innerHTML = '<div style="color:var(--text3);font-size:13px;padding:16px 20px;letter-spacing:0.01em">No specific roadmap items — you are well-aligned with this persona.</div>';
+    return;
+  }
+  const maxScore = roadmap[0].priority_score || 1;
+  list.innerHTML = roadmap.map((item, i) => {
+    const pct    = item.priority_score / maxScore;
+    const cls    = pct > 0.7 ? 'high' : pct > 0.4 ? 'med' : '';
+    return `
+      <div class="roadmap-item">
+        <span class="roadmap-rank">${String(i + 1).padStart(2, '0')}</span>
+        <div>
+          <div class="roadmap-skill">${item.skill}</div>
+          <div class="roadmap-cat">${item.category}</div>
+        </div>
+        <span class="priority-score ${cls}">
+          ${item.cluster_prevalence}% in cluster
+        </span>
+      </div>`;
+  }).join('');
+}
+
+//  Cluster comparison 
+function renderCompare(distances) {
+  const list = document.getElementById('compareList');
+  if (!distances.length) { list.innerHTML = ''; return; }
+
+  const maxDist = Math.max(...distances.map(d => d.distance));
+  list.innerHTML = distances.map((d, idx) => `
+    <div class="compare-item-v2 ${d.is_match ? 'is-match' : ''}">
+      <span class="cmp-rank">${String(idx + 1).padStart(2,'0')}</span>
+      <span class="cmp-name">${d.persona_label}</span>
+      <div class="cmp-bar-track">
+        <div class="cmp-bar-fill" id="cmp-bar-${idx}"></div>
+      </div>
+      <span class="cmp-match-badge">${d.is_match ? '✓ match' : d.distance.toFixed(3)}</span>
+    </div>`).join('');
+
+  setTimeout(() => {
+    distances.forEach((d, idx) => {
+      const el = document.getElementById(`cmp-bar-${idx}`);
+      if (el) el.style.width = `${(1 - d.distance / maxDist) * 100}%`;
+    });
+  }, 100);
+}
+
+//  Error
+function showError(msg) {
+  errorBanner.textContent = msg;
+  errorBanner.classList.toggle('visible', !!msg);
+}
+
+//  Boot
+init();
+</script>
+</body>
+</html>
