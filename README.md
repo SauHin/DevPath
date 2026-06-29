@@ -15,7 +15,7 @@ DevPath menjawab pertanyaan: **"Saya cocok ke kelompok developer mana, dan skill
 ## Demo
 
 ```
-Link TBA
+[Demo Video](https://youtu.be/JBCwmD1X12I)
 ```
 
 > Tersedia sebagai web app lokal (Flask) atau via Cloudflare Tunnel di Google Colab.
