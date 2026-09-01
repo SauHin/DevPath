@@ -74,23 +74,6 @@ Test: `python tests/test_api.py` (atau `pytest tests/`).
 
 ---
 
-## Deploy
-
-`Dockerfile` yang tersedia menargetkan **Hugging Face Spaces** (SDK: Docker, port
-7860). Push hanya file yang dibutuhkan ke repo Space — jangan mirror repo GitHub
-ini, karena history-nya membawa ~140 MB CSV mentah.
-
-Footprint runtime setelah model dimuat adalah ~427 MB RSS, jadi free tier dengan
-batas 512 MB (mis. Render) terlalu mepet; Hugging Face Spaces (16 GB) aman.
-
-> Catatan teknis: sempat diuji mengganti UMAP saat inference dengan voting k-NN
-> Jaccard langsung di ruang biner, supaya artifact turun dari 77 MB ke ~300 KB.
-> Validasi leave-one-out (`scripts/build_knn_index.py`) hanya mencapai **93,45%**
-> kesepakatan dengan label asli, di bawah ambang 95% yang ditetapkan, jadi UMAP
-> dipertahankan.
-
----
-
 ## Dataset
 
 | Atribut         | Detail                                             |
