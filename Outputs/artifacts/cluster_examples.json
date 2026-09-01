@@ -1,0 +1,210 @@
+{
+  "0": {
+    "LanguageHaveWorkedWith": [
+      "GDScript",
+      "HTML/CSS",
+      "Java",
+      "JavaScript",
+      "Python",
+      "SQL",
+      "TypeScript"
+    ],
+    "WebframeHaveWorkedWith": [
+      "Spring Boot"
+    ],
+    "DatabaseHaveWorkedWith": [
+      "Elasticsearch",
+      "Oracle",
+      "PostgreSQL"
+    ],
+    "PlatformHaveWorkedWith": [
+      "Chocolatey",
+      "Docker",
+      "Kubernetes",
+      "Maven (build tool)",
+      "Microsoft Azure",
+      "Vite",
+      "npm"
+    ],
+    "DevEnvsHaveWorkedWith": [
+      "IntelliJ IDEA",
+      "Visual Studio Code"
+    ],
+    "AIModelsHaveWorkedWith": [
+      "openAI GPT (chatbot models)"
+    ]
+  },
+  "1": {
+    "LanguageHaveWorkedWith": [
+      "C#",
+      "HTML/CSS",
+      "JavaScript",
+      "PowerShell",
+      "SQL",
+      "VBA"
+    ],
+    "WebframeHaveWorkedWith": [
+      "ASP.NET",
+      "ASP.NET Core",
+      "Angular"
+    ],
+    "DatabaseHaveWorkedWith": [
+      "Microsoft SQL Server"
+    ],
+    "PlatformHaveWorkedWith": [
+      "Amazon Web Services (AWS)",
+      "Docker",
+      "Microsoft Azure",
+      "NuGet",
+      "Terraform"
+    ],
+    "DevEnvsHaveWorkedWith": [
+      "Notepad++",
+      "Visual Studio",
+      "Visual Studio Code"
+    ]
+  },
+  "2": {
+    "LanguageHaveWorkedWith": [
+      "Assembly",
+      "Bash/Shell (all shells)",
+      "C++",
+      "HTML/CSS",
+      "Java",
+      "JavaScript",
+      "Python",
+      "SQL"
+    ],
+    "WebframeHaveWorkedWith": [
+      "Django",
+      "Express",
+      "FastAPI",
+      "Next.js",
+      "Node.js",
+      "React",
+      "WordPress"
+    ],
+    "DatabaseHaveWorkedWith": [
+      "BigQuery",
+      "MongoDB",
+      "MySQL",
+      "PostgreSQL",
+      "SQLite"
+    ],
+    "PlatformHaveWorkedWith": [
+      "Amazon Web Services (AWS)",
+      "Docker",
+      "Google Cloud",
+      "Pip",
+      "npm",
+      "pnpm"
+    ],
+    "DevEnvsHaveWorkedWith": [
+      "Eclipse",
+      "IntelliJ IDEA",
+      "Jupyter Notebook/JupyterLab",
+      "Neovim",
+      "PyCharm",
+      "Sublime Text",
+      "Visual Studio Code"
+    ],
+    "AIModelsHaveWorkedWith": [
+      "Gemini (Pro Reasoning models)",
+      "openAI GPT (chatbot models)"
+    ]
+  },
+  "3": {
+    "LanguageHaveWorkedWith": [
+      "HTML/CSS",
+      "Java",
+      "JavaScript",
+      "PHP",
+      "Python",
+      "SQL"
+    ],
+    "WebframeHaveWorkedWith": [
+      "Laravel",
+      "jQuery"
+    ],
+    "DatabaseHaveWorkedWith": [
+      "MariaDB",
+      "MySQL"
+    ],
+    "PlatformHaveWorkedWith": [
+      "Composer",
+      "Pip",
+      "npm"
+    ],
+    "DevEnvsHaveWorkedWith": [
+      "Visual Studio Code"
+    ],
+    "AIModelsHaveWorkedWith": [
+      "openAI GPT (chatbot models)",
+      "openAI Image generating models",
+      "openAI Reasoning models"
+    ]
+  },
+  "4": {
+    "LanguageHaveWorkedWith": [
+      "Bash/Shell (all shells)",
+      "C++",
+      "HTML/CSS",
+      "JavaScript",
+      "Python",
+      "SQL"
+    ],
+    "DatabaseHaveWorkedWith": [
+      "DuckDB",
+      "Redis"
+    ],
+    "PlatformHaveWorkedWith": [
+      "Amazon Web Services (AWS)",
+      "Docker",
+      "Homebrew",
+      "Make",
+      "Pip",
+      "Poetry",
+      "npm"
+    ],
+    "DevEnvsHaveWorkedWith": [
+      "Jupyter Notebook/JupyterLab",
+      "Vim",
+      "Visual Studio Code"
+    ]
+  },
+  "5": {
+    "LanguageHaveWorkedWith": [
+      "HTML/CSS",
+      "JavaScript",
+      "Python",
+      "TypeScript"
+    ],
+    "WebframeHaveWorkedWith": [
+      "Express",
+      "NestJS",
+      "Next.js",
+      "Node.js",
+      "React"
+    ],
+    "DatabaseHaveWorkedWith": [
+      "Dynamodb",
+      "PostgreSQL"
+    ],
+    "PlatformHaveWorkedWith": [
+      "Amazon Web Services (AWS)",
+      "Docker",
+      "Firebase",
+      "Pip",
+      "Vite",
+      "Webpack",
+      "npm"
+    ],
+    "DevEnvsHaveWorkedWith": [
+      "Visual Studio Code"
+    ],
+    "AIModelsHaveWorkedWith": [
+      "Anthropic: Claude Sonnet",
+      "openAI GPT (chatbot models)"
+    ]
+  }
+}

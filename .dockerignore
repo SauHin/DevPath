@@ -1,0 +1,9 @@
+Dataset/
+notebooks/
+scripts/
+tests/
+Outputs/models/
+!Outputs/models/cluster_profiles.json
+Outputs/artifacts/svd_model.pkl
+.git/
+__pycache__/

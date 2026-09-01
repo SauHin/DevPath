@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+App/
+Outputs/processed/
+.impeccable/
+CLAUDE.md
+DESIGN.md
+PRODUCT.md

@@ -1,0 +1,68 @@
+{
+  "0": {
+    "description": "Long-lived JVM systems, usually Spring Boot behind a relational database. Java appears in 93% of this cluster and IntelliJ IDEA in 78%, the tightest language-to-IDE pairing of any persona here. Docker (74%) and Maven (61%) point to containerised services with a standardised build. Two thirds also work with JavaScript, so this is rarely a backend-only role in practice.",
+    "responsibilities": [
+      "Build and maintain Spring Boot services and REST APIs",
+      "Design relational schemas and tune queries on PostgreSQL or similar",
+      "Manage builds and dependencies through Maven or Gradle",
+      "Containerise services and ship them through CI/CD pipelines",
+      "Profile and tune JVM performance, memory, and garbage collection",
+      "Integrate with message queues and internal service ecosystems"
+    ]
+  },
+  "1": {
+    "description": "The Microsoft stack end to end, from C# and ASP.NET Core to SQL Server. C# turns up in 96% of this cluster, ASP.NET Core in 73% and SQL Server in 79%, usually in enterprise or internal line-of-business applications. Notably, both Visual Studio (79%) and VS Code (81%) are common, and the ecosystem is broad enough that most people run both. HTML/CSS and JavaScript at ~74% show these are full-stack roles, not backend-only.",
+    "responsibilities": [
+      "Build and maintain ASP.NET Core web applications and APIs",
+      "Model data and write queries against SQL Server",
+      "Implement business logic and integrations for enterprise systems",
+      "Build server-rendered or Blazor/JavaScript front-ends alongside the backend",
+      "Handle authentication, authorisation, and role-based access",
+      "Deploy and operate applications on Azure or on-premise Windows infrastructure"
+    ]
+  },
+  "2": {
+    "description": "Equally at home in application code and in the infrastructure it runs on. The most tooling-heavy cluster in the data: Docker turns up in 88% of these profiles, the highest of any persona, alongside JavaScript (91%), Python (86%) and TypeScript (75%), often more than one language at once. This cluster also shows the strongest appetite for Rust and Go of any persona, suggesting a systems-oriented direction.",
+    "responsibilities": [
+      "Build full-stack applications spanning TypeScript front-ends and Python or Node services",
+      "Containerise workloads and manage them through orchestration platforms",
+      "Design and operate CI/CD pipelines and deployment automation",
+      "Provision cloud infrastructure and manage it as code",
+      "Monitor production systems, set up alerting, and handle incidents",
+      "Choose and integrate services across cloud provider ecosystems"
+    ]
+  },
+  "3": {
+    "description": "Classic LAMP work: PHP and MySQL under a JavaScript front-end. PHP (76%) sits with MySQL (76%) or MariaDB (51%), fronted by JavaScript (92%) and HTML/CSS (86%). This persona builds and maintains content-driven sites, CMS platforms, and commercial web applications, frequently as the sole developer on a project. Node.js at 53% shows a substantial part of the cluster has already moved partway into the JavaScript ecosystem, and Python and TypeScript are the two skills its members most want to learn next.",
+    "responsibilities": [
+      "Build and maintain PHP web applications, CMS platforms, and e-commerce sites",
+      "Design and query MySQL or MariaDB schemas",
+      "Implement front-end interfaces with JavaScript, HTML, and CSS",
+      "Integrate third-party APIs, payment gateways, and plugins",
+      "Manage shared or VPS hosting, deployments, and site performance",
+      "Handle web security basics: input validation, sessions, and access control"
+    ]
+  },
+  "4": {
+    "description": "The only persona whose dominant role is back-end rather than full-stack. Python (90%) sits alongside Docker (75%), Bash (66%), PostgreSQL (63%), and pip (63%), a shell-and-container workflow oriented toward services, automation, and data work. JavaScript drops to 48%, the lowest of any cluster, confirming these developers spend most of their time away from the browser.",
+    "responsibilities": [
+      "Build Python services, APIs, and backend business logic",
+      "Write data processing, ETL, and automation scripts",
+      "Design and query PostgreSQL schemas",
+      "Package and deploy applications with Docker and virtual environments",
+      "Automate operational tasks through shell scripting",
+      "Work with data or ML tooling and move experiments toward production"
+    ]
+  },
+  "5": {
+    "description": "TypeScript and React on the browser, Node.js on the server. TypeScript reaches 78% of this cluster, React 68% and Node.js 67%, while npm (75%) and Docker (71%) reflect a modern package-and-container workflow. This is the JavaScript ecosystem at its current centre of gravity: typed, component-based, and full-stack by default rather than split between front-end and back-end specialists.",
+    "responsibilities": [
+      "Build React front-ends with TypeScript and modern component patterns",
+      "Develop Node.js APIs and server-side rendering layers",
+      "Manage packages, bundlers, and build tooling across the JavaScript ecosystem",
+      "Implement state management, routing, and client-side data fetching",
+      "Write component and integration tests",
+      "Optimise bundle size, rendering performance, and Core Web Vitals"
+    ]
+  }
+}

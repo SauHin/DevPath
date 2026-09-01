@@ -17,6 +17,9 @@ DevPath menjawab pertanyaan: **"Saya cocok ke kelompok developer mana, dan skill
 
 Youtube link: [Demo Video](https://youtu.be/JBCwmD1X12I)
 
+> Catatan: video ini masih merekam antarmuka versi lama. Tampilan saat ini
+> mengikuti `DESIGN.md`.
+
 
 > Tersedia sebagai web app lokal (Flask) atau via Cloudflare Tunnel di Google Colab.
 
@@ -37,11 +40,54 @@ UMAP Transform (Jaccard)         → 15-dim dense embedding
 K-Means Predict (K=6)            → cluster_id (0–5)
       │
       ├─→ Persona Label           "Python Backend & Data Developer"
-      ├─→ Confidence Score        jarak ke centroid cluster vs semua cluster
-      ├─→ Radar Chart             coverage skill user per kategori vs centroid cluster
+      ├─→ Confidence Score        softmax atas jarak ke seluruh centroid
+      ├─→ Trait Coverage          cakupan skill inti cluster per kategori
       ├─→ Skill Gap               skill prevalent di cluster yang belum dimiliki user
-      └─→ Learning Roadmap        skill gap diranking berdasarkan priority score
+      └─→ Learning Roadmap        gap diranking ulang dengan sinyal WantToWorkWith
 ```
+
+---
+
+## Menjalankan Secara Lokal
+
+```bash
+git clone https://github.com/SauHin/DevPath.git && cd DevPath
+python -m venv .venv && .venv/Scripts/activate   # Linux/macOS: source .venv/bin/activate
+pip install -r requirements.txt
+python app.py
+```
+
+Buka `http://127.0.0.1:5000`. Startup butuh sekitar 30 detik pada run pertama: load
+UMAP 77 MB lalu memanggilnya sekali untuk trigger JIT numba. Setelah itu
+tiap prediksi berjalan di bawah 10 ms.
+
+Cek status API: `curl localhost:5000/api/health`
+
+| Variabel        | Default             | Guna                                       |
+|-----------------|---------------------|--------------------------------------------|
+| `PORT`          | `5000`              | Port HTTP                                  |
+| `HOST`          | `127.0.0.1`         | Set `0.0.0.0` untuk diakses dari luar       |
+| `DEVPATH_DEBUG` | off                 | `1` untuk mode debug Flask                  |
+| `DEVPATH_OUT_DIR` | `./Outputs`       | Lokasi `artifacts/`, `models/`, `templates/`|
+
+Test: `python tests/test_api.py` (atau `pytest tests/`).
+
+---
+
+## Deploy
+
+`Dockerfile` yang tersedia menargetkan **Hugging Face Spaces** (SDK: Docker, port
+7860). Push hanya file yang dibutuhkan ke repo Space — jangan mirror repo GitHub
+ini, karena history-nya membawa ~140 MB CSV mentah.
+
+Footprint runtime setelah model dimuat adalah ~427 MB RSS, jadi free tier dengan
+batas 512 MB (mis. Render) terlalu mepet; Hugging Face Spaces (16 GB) aman.
+
+> Catatan teknis: sempat diuji mengganti UMAP saat inference dengan voting k-NN
+> Jaccard langsung di ruang biner, supaya artifact turun dari 77 MB ke ~300 KB.
+> Validasi leave-one-out (`scripts/build_knn_index.py`) hanya mencapai **93,45%**
+> kesepakatan dengan label asli, di bawah ambang 95% yang ditetapkan, jadi UMAP
+> dipertahankan.
 
 ---
 
@@ -52,7 +98,7 @@ K-Means Predict (K=6)            → cluster_id (0–5)
 | Sumber          | Stack Overflow Developer Survey 2025               |
 | Format          | CSV (6 part file)                                  |
 | Total Raw       | ~48.867 responden                                  |
-| Setelah Cleaning| ~23.387 responden (65.3% retensi)                  |
+| Setelah Cleaning| ~23.387 responden (47.9% retensi)                  |
 | Kolom           | 172 kolom per part                                 |
 
 Sumber: [Stack Overflow Annual Developer Survey](https://survey.stackoverflow.co/)
@@ -70,11 +116,19 @@ DevPath/
 │   ├── 03_Modeling.ipynb                # Training, evaluasi, simpan model
 │   └── 04_ApplicationLayer.ipynb        # Generate app files + deploy
 │
-├── app.py                               # Flask backend (versi lokal/Colab)
+├── app.py                               # Flask backend
 ├── requirements.txt
+├── Dockerfile                           # target Hugging Face Spaces
+├── PRODUCT.md                           # kebenaran produk (audiens, batasan, bukti)
+├── DESIGN.md                            # sistem desain, ditulis dari build
 │
-├── templates/
-│   └── index.html                       # Frontend SPA
+├── scripts/
+│   ├── build_profiles.py                # prevalensi 186 skill + sinyal WantToWorkWith
+│   ├── build_examples.py                # stack contoh nyata per cluster (kartu landing)
+│   └── build_knn_index.py               # eksperimen pengganti UMAP (lihat catatan Deploy)
+│
+├── tests/
+│   └── test_api.py
 │
 ├── Outputs/                             
 │   ├── artifacts/
@@ -83,7 +137,14 @@ DevPath/
 │   │   ├── kmeans_final.pkl             # Fitted K-Means (K=6)
 │   │   ├── feature_names.json           # 186 nama fitur binary
 │   │   ├── persona_labels.json          # cluster_id untuk nama persona
+│   │   ├── cluster_prevalence.json      # prevalensi & minat 186 skill per cluster
+│   │   ├── persona_descriptions.json    # deskripsi persona, di-key cluster_id
 │   │   └── model_config.json            # Hyperparameter & metrik final
+│   │
+│   ├── templates/
+│   │   └── index.html                   # Frontend: satu file, tanpa build step
+│   │
+│   ├── static/fonts/                    # dua typeface woff2 self-hosted
 │   │
 │   └── models/
 │       ├── cluster_profiles.json        # Profil lengkap 6 cluster
