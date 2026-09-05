@@ -13,15 +13,7 @@ DevPath menjawab pertanyaan: **"Saya cocok ke kelompok developer mana, dan skill
 ---
 
 ## Demo
-
-
-Youtube link: [Demo Video](https://youtu.be/JBCwmD1X12I)
-
-> Catatan: video ini masih merekam antarmuka versi lama. Tampilan saat ini
-> mengikuti `DESIGN.md`.
-
-
-> Tersedia sebagai web app lokal (Flask) atau via Cloudflare Tunnel di Google Colab.
+Youtube link: [DevPath - Demo App](https://youtu.be/JBCwmD1X12I)
 
 ---
 
@@ -48,7 +40,7 @@ K-Means Predict (K=6)            → cluster_id (0–5)
 
 ---
 
-## Menjalankan Secara Lokal
+## Local Run
 
 ```bash
 git clone https://github.com/SauHin/DevPath.git && cd DevPath
