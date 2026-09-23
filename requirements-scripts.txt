@@ -1,0 +1,5 @@
+# Dependency for scripts/build_profiles.py only. Not installed on Vercel or
+# in the Docker image, since app.py never imports pandas.
+# Install alongside requirements.txt before running anything in scripts/:
+#   pip install -r requirements.txt -r requirements-scripts.txt
+pandas==3.0.5
