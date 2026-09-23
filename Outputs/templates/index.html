@@ -312,7 +312,7 @@ body[data-state="result"] .hero,body[data-state="result"] #profiles,body[data-st
 
 .res-sec{margin-top:64px}
 .res-h{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:22px}
-.res-h h3{font-size:24px;font-weight:600;letter-spacing:-.022em}
+.res-h h2{font-size:24px;font-weight:600;letter-spacing:-.022em}
 .two{display:grid;grid-template-columns:1.35fr 1fr;gap:24px;align-items:start}
 
 .desc{padding:32px}
@@ -633,7 +633,7 @@ footer{margin-top:96px;padding-bottom:64px}
     <div class="tiles" id="grpFacts"></div>
 
     <section class="res-sec">
-      <div class="res-h"><h3>The group you matched</h3><span class="t-label" id="grpN"></span></div>
+      <div class="res-h"><h2>The group you matched</h2><span class="t-label" id="grpN"></span></div>
       <div class="two">
         <div class="card desc">
           <p class="lead-line" id="grpLead"></p>
@@ -661,7 +661,7 @@ footer{margin-top:96px;padding-bottom:64px}
     <section class="res-sec">
       <div class="res-h">
         <div>
-          <h3>Skills this profile has that you do not</h3>
+          <h2>Skills this profile has that you do not</h2>
           <p class="t-small" style="margin-top:6px">The bar is how many people in this profile use the skill.</p>
         </div>
         <span class="t-label" id="gapN"></span>
@@ -672,7 +672,7 @@ footer{margin-top:96px;padding-bottom:64px}
     <section class="res-sec">
       <div class="res-h">
         <div>
-          <h3>What this profile is learning next</h3>
+          <h2>What this profile is learning next</h2>
           <p class="t-small" style="margin-top:6px">Ranked by demand: the share of people in this
             profile who lack the skill and say they want to learn it.</p>
         </div>
@@ -682,7 +682,7 @@ footer{margin-top:96px;padding-bottom:64px}
     </section>
 
     <section class="res-sec">
-      <div class="res-h"><h3>How close you are to the other profiles</h3>
+      <div class="res-h"><h2>How close you are to the other profiles</h2>
         <span class="t-label">Distance to all six centroids</span></div>
       <div class="near" id="near"></div>
     </section>
@@ -751,7 +751,8 @@ footer{margin-top:96px;padding-bottom:64px}
     <div class="t-small">
       Source · <a href="https://survey.stackoverflow.co/" target="_blank" rel="noopener">Stack Overflow
       Annual Developer Survey 2025</a><br>
-      48,867 raw responses → 23,387 after cleaning (47.9% retained)
+      48,867 raw responses → 23,387 after cleaning (47.9% retained)<br>
+      No data you enter is stored or collected by this site.
     </div>
   </div>
 </footer>
@@ -855,6 +856,10 @@ function worked(cid){
 // Landing, builder and result are three states of one page - never all at once.
 function setState(state){
   document.body.dataset.state = state;
+  if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+  // behavior:'auto' forcibly interrupts any in-flight smooth scroll from a
+  // #profiles anchor click; a plain .scrollTop assignment does not, and
+  // races with it instead.
   window.scrollTo({top:0, behavior:'auto'});
 }
 function toBuilder(focus){
