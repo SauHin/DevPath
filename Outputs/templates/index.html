@@ -286,12 +286,14 @@ button.mark{cursor:pointer}
 .err.on{display:block}
 
 /* ── Result ────────────────────────────────────────────────────────── */
-#build,#result{display:none}
+#build,#result,#data{display:none}
 body[data-state="build"] #build{display:block}
 body[data-state="result"] #result{display:block}
-body[data-state="build"] #build,body[data-state="result"] #result{margin-top:8px}
+body[data-state="data"] #data{display:block}
+body[data-state="build"] #build,body[data-state="result"] #result,body[data-state="data"] #data{margin-top:8px}
 body[data-state="build"] .hero,body[data-state="build"] #profiles,body[data-state="build"] .how,
-body[data-state="result"] .hero,body[data-state="result"] #profiles,body[data-state="result"] .how{display:none}
+body[data-state="result"] .hero,body[data-state="result"] #profiles,body[data-state="result"] .how,
+body[data-state="data"] .hero,body[data-state="data"] #profiles,body[data-state="data"] .how{display:none}
 .det{display:grid;grid-template-columns:1.6fr 1fr;gap:56px;align-items:end;
   padding-bottom:34px;border-bottom:1px solid var(--line)}
 .det.run .det-name{animation:rise .7s .05s var(--ease) both}
@@ -367,6 +369,36 @@ body[data-state="result"] .hero,body[data-state="result"] #profiles,body[data-st
 .restart{margin-top:56px;padding-top:26px;border-top:1px solid var(--line);
   display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
 
+/* ── The data ──────────────────────────────────────────────────────── */
+/* Population figures only, so no lime here: every fill is ink. */
+.data-head{display:grid;grid-template-columns:1.35fr 1fr;gap:56px;align-items:end;
+  padding-bottom:34px;border-bottom:1px solid var(--line)}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.dq{padding:26px;display:flex;flex-direction:column;gap:14px}
+.dq-row{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(60px,1fr) 64px;gap:14px;
+  align-items:center;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}
+.dq-row:last-child{border-bottom:0}
+.dq-row .vv{text-align:right;font-size:13px}
+.dq-row .vv i{display:block;font-style:normal;color:var(--ink-3)}
+.dq-note{margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}
+.sal{padding:8px 26px 14px}
+.sal-row{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(80px,1fr) 52px minmax(80px,1fr) 48px;
+  gap:14px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line);font-size:14px}
+#salRows .sal-row:last-child{border-bottom:0}
+.sal-row .span2{grid-column:span 2}
+.sal-row .nm{font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sal-row .vv{text-align:right;font-size:13px}
+/* A signed bar: fills grow out of the zero line, right for above, left for below. */
+.dv{position:relative;height:6px;border-radius:var(--r-pill);background:var(--sand-2)}
+.dv::after{content:'';position:absolute;left:50%;top:-5px;bottom:-5px;width:1px;background:var(--ink-3)}
+.dv>span{position:absolute;top:0;bottom:0;width:50%;border-radius:var(--r-pill);background:var(--ink)}
+.dv>.pos{left:50%;transform-origin:left}
+.dv>.neg{right:50%;transform-origin:right}
+.data-read{margin-top:20px;max-width:72ch}
+.pick{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.chip[aria-pressed="true"],button.chip[aria-pressed="true"]:hover:not([disabled]){
+  background:var(--ink);border-color:var(--ink);color:var(--on-ink)}
+
 /* ── How it works ──────────────────────────────────────────────────── */
 .how{margin-top:110px}
 .how-in{border-radius:var(--r-xl);background:var(--ink);color:var(--on-ink);padding:56px 56px 48px}
@@ -398,6 +430,8 @@ footer{margin-top:96px;padding-bottom:64px}
   .road{grid-template-columns:1fr}
   .tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
   .gap-grid{grid-template-columns:1fr}
+  .data-head{grid-template-columns:1fr;gap:20px;align-items:start}
+  .pair{grid-template-columns:1fr}
   .how-in{padding:36px 28px 32px}
   .steps{grid-template-columns:1fr;gap:20px}
   .sec{margin-top:80px}
@@ -420,6 +454,12 @@ footer{margin-top:96px;padding-bottom:64px}
   .tiles{grid-template-columns:1fr 1fr}
   .near-row{grid-template-columns:minmax(0,1fr) 64px;gap:10px}
   .near-row .bar{display:none}
+  .sal{padding:4px 18px 10px}
+  .sal-row{grid-template-columns:minmax(0,1fr) 64px 72px;gap:10px}
+  .sal-row .bar,.sal-row .dv{display:none}
+  .sal-row .span2{grid-column:auto;text-align:right}
+  .sal-row .nm{white-space:normal}
+  .gap-row{grid-template-columns:minmax(0,1fr) 72px 44px;gap:12px}
   .resp{column-count:1}
   .sec-head{flex-direction:column;align-items:flex-start;gap:12px}
   .res-h{flex-direction:column;align-items:flex-start;gap:8px}
@@ -476,6 +516,7 @@ footer{margin-top:96px;padding-bottom:64px}
     <div class="nav-links">
       <a href="#profiles">The six profiles</a>
       <a href="#how">How it works</a>
+      <a href="#data" data-view="data">The data</a>
     </div>
     <div class="nav-right">
       <a class="btn btn-ghost" href="https://github.com/SauHin/DevPath" target="_blank" rel="noopener">GitHub</a>
@@ -555,7 +596,8 @@ footer{margin-top:96px;padding-bottom:64px}
         <h2 class="t-h2" style="margin-top:12px;max-width:15ch">Six ways developers actually stack up.</h2>
       </div>
       <p class="t-small">Sizes are shares of 23,387 cleaned survey responses. Percentages are how common
-        a skill is inside that profile. Click any card to see an example result.</p>
+        a skill is inside that profile. Click any card to see an example result.
+        <a class="linkish" href="#data" data-view="data">See the analysis behind them</a></p>
     </div>
     <div class="plates" id="plates"></div>
   </div>
@@ -660,6 +702,17 @@ footer{margin-top:96px;padding-bottom:64px}
       </div>
     </section>
 
+    <section class="res-sec" id="survey">
+      <div class="res-h">
+        <div>
+          <h2>What the survey says about this profile</h2>
+          <p class="t-small" style="margin-top:6px">These describe the people in this profile, not you.</p>
+        </div>
+        <a class="linkish" href="#data" data-view="data">How these were measured</a>
+      </div>
+      <div class="tiles" id="grpSurvey" style="margin-top:0"></div>
+    </section>
+
     <section class="res-sec">
       <div class="res-h">
         <div>
@@ -697,6 +750,96 @@ footer{margin-top:96px;padding-bottom:64px}
       <button class="btn btn-lime" id="again">Edit my sheet
         <span class="knob"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor"
           stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><use href="#i-back"/></svg></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="data">
+  <div class="wrap">
+    <div class="t-label" style="margin-bottom:26px">The analysis behind DevPath</div>
+    <div class="data-head">
+      <h1 class="t-h1">What the survey says before any model runs.</h1>
+      <p class="t-lead">DevPath starts from <span id="dRaw"></span> responses to the Stack Overflow
+        Developer Survey 2025. This page shows how they were cleaned, how salary compares across the
+        six profiles, and what each profile wants to learn next.</p>
+    </div>
+
+    <section class="res-sec">
+      <div class="res-h">
+        <div>
+          <h2>More than half the responses could not be used</h2>
+          <p class="t-small" style="margin-top:6px;max-width:72ch">A blank answer is not the same as
+            "none". Someone who skips the database question would read as a developer who uses no
+            database. Responses with too many blank categories were removed before clustering.</p>
+        </div>
+        <span class="t-label">01 · Cleaning</span>
+      </div>
+      <div class="pair">
+        <div class="card dq">
+          <div class="t-h4">Cleaning, step by step</div>
+          <div id="dqFunnel"></div>
+          <p class="t-small dq-note">AI models stayed optional. Requiring all six categories would have
+            kept only <span class="emph" id="dqAll"></span> of responses.</p>
+        </div>
+        <div class="card dq">
+          <div class="t-h4">Left blank, by category</div>
+          <div id="dqMissing"></div>
+          <p class="t-small dq-note">Languages is the most complete category, so it became the one hard
+            requirement. It is also the one category DevPath asks you for.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="res-sec">
+      <div class="res-h">
+        <div>
+          <h2>Salary looks different once country is held constant</h2>
+          <p class="t-small" style="margin-top:6px;max-width:72ch">Salary depends heavily on where a
+            developer lives. The median is <span class="emph" id="salUS"></span> in the United States and
+            <span class="emph" id="salIN"></span> in India. A profile with many US respondents looks well
+            paid for that reason alone. So each salary is also compared with the median of its own country.</p>
+        </div>
+        <span class="t-label">02 · Salary</span>
+      </div>
+      <div class="card sal">
+        <div class="sal-row">
+          <span class="t-label">Profile</span>
+          <span class="t-label span2">Median salary</span>
+          <span class="t-label span2">vs country median</span>
+        </div>
+        <div id="salRows"></div>
+      </div>
+      <p class="t-body data-read" id="salRead"></p>
+      <p class="t-label" style="margin-top:12px">Salaries between <span id="salLo"></span> and
+        <span id="salHi"></span> a year. Countries with fewer than <span id="salMinN"></span> salaries are
+        left out of the comparison. Median across all salaries: <span id="salAll"></span>.</p>
+    </section>
+
+    <section class="res-sec">
+      <div class="res-h">
+        <div>
+          <h2>What each profile wants to learn next</h2>
+          <p class="t-small" style="margin-top:6px;max-width:72ch">Demand is the share of a profile's
+            members who do not use a skill yet and say they want to. Current users are left out, because
+            the survey also counts people who want to keep using a skill. Skills already used by
+            <span id="cutoff"></span> or more of a profile are not listed.</p>
+        </div>
+        <span class="t-label">03 · Demand</span>
+      </div>
+      <div class="pick" id="wantPick" role="group" aria-label="Choose a profile"></div>
+      <div class="gap-grid" id="wantRows"></div>
+      <p class="t-body data-read" id="wantRead"></p>
+    </section>
+
+    <div class="restart">
+      <div>
+        <div class="t-h4">See where your own stack lands</div>
+        <p class="t-small" style="margin-top:5px">One language and two tools in total are enough for a result.</p>
+      </div>
+      <button class="btn btn-primary" data-start>Find my profile
+        <span class="knob"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+          stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow"/></svg></span>
       </button>
     </div>
   </div>
@@ -749,11 +892,13 @@ footer{margin-top:96px;padding-bottom:64px}
       </div>
       <p class="t-small" style="margin-top:12px;max-width:44ch">Career profile segmentation from real
         developer stacks.</p>
+      <p class="t-small" style="margin-top:10px"><a href="#data" data-view="data">The analysis behind
+        the profiles</a></p>
     </div>
     <div class="t-small">
       Source · <a href="https://survey.stackoverflow.co/" target="_blank" rel="noopener">Stack Overflow
       Annual Developer Survey 2025</a><br>
-      48,867 raw responses → 23,387 after cleaning (47.9% retained)<br>
+      49,191 raw responses → 23,387 after cleaning (47.5% retained)<br>
       No data you enter is stored or collected by this site.
     </div>
   </div>
@@ -786,15 +931,19 @@ let vocabulary = [];
 let clusters = [];
 let picked = {};
 let acList = [], acIdx = -1;
+let insights = null;   // /api/insights - population figures for the data view
+let dataPick = null;   // the profile shown in "what each profile wants to learn"
 
 /* ── Boot ─────────────────────────────────────────────────────────── */
 async function init(){
-  const [v, c] = await Promise.all([
+  const [v, c, i] = await Promise.all([
     fetch('/api/vocabulary').then(r => r.json()).catch(() => ({skills:[]})),
     fetch('/api/clusters').then(r => r.json()).catch(() => ({clusters:[]})),
+    fetch('/api/insights').then(r => r.json()).catch(() => ({})),
   ]);
   vocabulary = v.skills || [];
   clusters = c.clusters || [];
+  insights = i.personas ? i : null;
 
   CATEGORIES = [];
   vocabulary.forEach(s => {
@@ -803,7 +952,11 @@ async function init(){
   });
   CATEGORIES.forEach(k => picked[k.col] = new Set());
 
-  setState('landing');
+  // Without the figures there is nothing to link to.
+  document.querySelectorAll('[data-view]').forEach(n => n.hidden = !insights);
+  if (insights) renderData();
+  // /#data is the shareable link to the analysis.
+  setState(insights && location.hash === '#data' ? 'data' : 'landing');
   renderPlates();
   buildCats();
   wire();
@@ -867,6 +1020,106 @@ function setState(state){
 function toBuilder(focus){
   setState('build');
   if (focus) setTimeout(() => el('q').focus(), 120);
+}
+function openData(){
+  if (!insights) return;
+  pickWant(dataPick);
+  setState('data');
+}
+
+/* ── The data ────────────────────────────────────────────────────── */
+const usd = v => `$${Math.round(v / 1000)}k`;
+const signed = v => { const r = Math.round(v); return (r > 0 ? '+' : r < 0 ? '−' : '') + Math.abs(r) + '%'; };
+const scale = (v, max) => `transform:scaleX(${Math.max(0, Math.min(1, v / max)).toFixed(3)})`;
+const catOf = (key, val) => (CATEGORIES.find(k => k[key] === val) || {label: val}).label;
+const andList = a => a.length < 2 ? a.join('') : `${a.slice(0, -1).join(', ')} and ${a[a.length - 1]}`;
+
+// Built once: every figure on this view is a population figure from build_insights.py.
+function renderData(){
+  const F = insights.funnel, S = insights.salary, P = insights.personas;
+
+  el('dRaw').textContent = F.raw.toLocaleString('en-US');
+  el('dqFunnel').innerHTML = [
+    ['All responses', F.raw],
+    ['Named at least one language', F.has_language],
+    ['At most one other core category left blank', F.kept],
+  ].map(([k, n]) => `
+    <div class="dq-row"><span>${k}</span>
+      <span class="bar"><span style="${scale(n, F.raw)}"></span></span>
+      <span class="vv">${n.toLocaleString('en-US')}<i>${Math.round(n / F.raw * 100)}%</i></span></div>`).join('');
+  el('dqAll').textContent = `${Math.round(F.all_six / F.raw * 100)}%`;
+  el('dqMissing').innerHTML = insights.missing.map(m => `
+    <div class="dq-row"><span>${esc(catOf('col', m.col))}</span>
+      <span class="bar"><span style="${scale(m.pct, 100)}"></span></span>
+      <span class="vv">${Math.round(m.pct)}%</span></div>`).join('');
+
+  el('salUS').textContent = usd(S.country_medians['United States of America']);
+  el('salIN').textContent = usd(S.country_medians['India']);
+  el('salLo').textContent = usd(S.range[0]);
+  el('salHi').textContent = usd(S.range[1]);
+  el('salMinN').textContent = S.min_country_n;
+  el('salAll').textContent = usd(S.global_median);
+  const maxSal = Math.max(...P.map(p => p.salary));
+  const maxVs = Math.max(...P.map(p => Math.abs(p.vs_country)), 1);
+  el('salRows').innerHTML = P.map(p => `
+    <div class="sal-row">
+      <span class="nm">${esc(p.persona_label)}</span>
+      <span class="bar"><span style="${scale(p.salary, maxSal)}"></span></span>
+      <span class="vv">${usd(p.salary)}</span>
+      <span class="dv"><span class="${p.vs_country < 0 ? 'neg' : 'pos'}"
+        style="${scale(Math.abs(p.vs_country), maxVs)}"></span></span>
+      <span class="vv">${signed(p.vs_country)}</span>
+    </div>`).join('');
+
+  // The reading is derived, not written in: two profiles with near-identical
+  // medians that split once country is held constant, then the lowest one.
+  let pair = null;
+  P.forEach(a => P.forEach(b => {
+    const gap = b.vs_country - a.vs_country;
+    if (a !== b && Math.abs(a.salary - b.salary) <= .02 * Math.max(a.salary, b.salary)
+        && gap >= 5 && (!pair || gap > pair.gap)) pair = {a, b, gap};
+  }));
+  const low = P.reduce((m, p) => p.vs_country < m.vs_country ? p : m);
+  const nm = p => `<span class="emph">${esc(p.persona_label)}</span>`;
+  el('salRead').innerHTML = (pair
+    ? `${nm(pair.a)} and ${nm(pair.b)} have almost the same median salary: ${
+        usd(pair.a.salary) === usd(pair.b.salary) ? usd(pair.a.salary)
+          : `${usd(pair.a.salary)} and ${usd(pair.b.salary)}`}.
+       Against their own country's median, the first sits at ${signed(pair.a.vs_country)} and the
+       second at ${signed(pair.b.vs_country)}. ` : '')
+    + `${nm(low)} stays the lowest of the six, at ${signed(low.vs_country)}.`;
+
+  el('cutoff').textContent = `${Math.round(insights.common_cutoff)}%`;
+  const order = [...P].sort((a, b) => b.share - a.share);
+  dataPick = order[0].cluster_id;
+  el('wantPick').innerHTML = order.map(p =>
+    `<button class="chip" data-cid="${p.cluster_id}" aria-pressed="false">${esc(p.persona_label)}</button>`).join('');
+  el('wantPick').querySelectorAll('button').forEach(b =>
+    b.addEventListener('click', () => pickWant(+b.dataset.cid)));
+  const seen = {};
+  P.forEach(p => p.wanted.forEach(w => seen[w.feature] = (seen[w.feature] || 0) + 1));
+  const everywhere = Object.keys(seen).filter(f => seen[f] === P.length).map(f => f.split('__')[1]);
+  el('wantRead').textContent = everywhere.length
+    ? `${andList(everywhere)} ${everywhere.length > 1 ? 'appear' : 'appears'} in the top ${
+        P[0].wanted.length} of all ${P.length} profiles.` : '';
+  pickWant(dataPick);
+}
+
+function pickWant(cid){
+  const p = insights.personas.find(x => x.cluster_id === cid) || insights.personas[0];
+  dataPick = p.cluster_id;
+  el('wantPick').querySelectorAll('button').forEach(b =>
+    b.setAttribute('aria-pressed', +b.dataset.cid === p.cluster_id ? 'true' : 'false'));
+  el('wantRows').innerHTML = p.wanted.map(w => {
+    const [pre, name] = w.feature.split('__');
+    return `
+    <div class="gap-row">
+      <div><div class="nm">${esc(name)}</div>
+        <div class="cat-lb">${esc(catOf('prefix', pre))} · used by ${Math.round(w.have)}%</div></div>
+      <span class="bar"><span style="${scale(w.want, 100)}"></span></span>
+      <span class="ct">${Math.round(w.want)}%</span>
+    </div>`;
+  }).join('');
 }
 
 /* ── Recording sheet ─────────────────────────────────────────────── */
@@ -1114,6 +1367,24 @@ function render(d){
   el('grpResp').innerHTML = (p.responsibilities || []).map((r, i) =>
     `<li><b>${String(i + 1).padStart(2, '0')}</b><span>${esc(r)}</span></li>`).join('');
 
+  // Population figures for the matched profile, each set against all six.
+  const s = insights && insights.personas.find(x => x.cluster_id === d.cluster_id);
+  el('survey').hidden = !s;
+  if (s){
+    const O = insights.overall, vs = insights.personas.map(x => x.vs_country);
+    el('grpSurvey').innerHTML = [
+      [signed(s.vs_country), 'Salary against own-country median',
+        `The six range from ${signed(Math.min(...vs))} to ${signed(Math.max(...vs))}`],
+      [`${Math.round(s.remote)}%`, 'Work fully remote', `${Math.round(O.remote)}% across all six profiles`],
+      [`${Math.round(s.under_25)}%`, 'Are under 25', `${Math.round(O.under_25)}% across all six profiles`],
+      [s.job_sat.toFixed(1), 'Job satisfaction, out of 10', `${O.job_sat.toFixed(1)} across all six profiles`],
+    ].map(([v, k, c]) =>
+      `<div class="card tile"><div class="v">${esc(v)}</div>` +
+      `<div class="t-label" style="margin-top:10px">${esc(k)}</div>` +
+      `<p class="t-small" style="margin-top:6px">${esc(c)}</p></div>`).join('');
+    dataPick = s.cluster_id;   // "How these were measured" opens on this profile
+  }
+
   el('covRows').innerHTML = (d.category_coverage || []).map(c => `
     <div class="cov-row">
       <span class="lb"><span>${esc(c.category)}</span><i>${c.have}/${c.core}</i></span>
@@ -1165,7 +1436,9 @@ function wire(){
   document.querySelectorAll('[data-start]').forEach(b =>
     b.addEventListener('click', () => toBuilder(true)));
   el('home').addEventListener('click', () => setState('landing'));
-  document.querySelectorAll('.nav-links a').forEach(a =>
+  document.querySelectorAll('[data-view]').forEach(a =>
+    a.addEventListener('click', e => { e.preventDefault(); openData(); }));
+  document.querySelectorAll('.nav-links a:not([data-view])').forEach(a =>
     a.addEventListener('click', e => {
       const t = document.querySelector(a.getAttribute('href'));
       if (!t) return;

@@ -117,8 +117,26 @@ def test_example_stack_predicts_back_to_its_own_cluster():
             f'{c["persona_label"]} -> {d["persona_label"]}')
 
 
+def test_insights_match_the_model():
+    """View "The data" dan blok persona di halaman hasil membaca insights.json.
+
+    File itu dibuat terpisah oleh scripts/build_insights.py, jadi setelah retraining
+    angkanya bisa tertinggal dari model. Median gaji harus sama dengan tile gaji
+    di halaman hasil, dan cluster_id harus menunjuk persona yang sama.
+    """
+    d = client.get("/api/insights").get_json()
+    assert d["funnel"]["kept"] == 23387
+    profiles = {p["cluster_id"]: p for p in client.get("/api/clusters").get_json()["clusters"]}
+    assert {p["cluster_id"] for p in d["personas"]} == set(profiles)
+    for p in d["personas"]:
+        prof = profiles[p["cluster_id"]]
+        assert p["persona_label"] == prof["persona_label"]
+        assert abs(p["salary"] - prof["salary_median"]) < 1, p["persona_label"]
+        assert p["wanted"] and all(w["have"] < d["common_cutoff"] for w in p["wanted"])
+
+
 if __name__ == "__main__":
-    fns = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
+    fns =[v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0
     for fn in fns:
         try:

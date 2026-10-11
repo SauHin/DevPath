@@ -41,6 +41,8 @@ descriptions   = {int(k): v for k, v in _load(os.path.join(ARTIFACTS_DIR, "perso
 # stack contoh nyata per cluster, sudah diverifikasi terprediksi balik ke
 # clusternya sendiri -- lihat scripts/build_examples.py
 examples       = {int(k): v for k, v in _load(os.path.join(ARTIFACTS_DIR, "cluster_examples.json")).items()}
+# angka analisis data untuk view "The data" -- lihat scripts/build_insights.py
+insights       = _load(os.path.join(ARTIFACTS_DIR, "insights.json"))
 cluster_profiles_raw = _load(os.path.join(MODELS_DIR, "cluster_profiles.json"))
 cluster_profiles = {p["cluster_id"]: p for p in cluster_profiles_raw}
 
@@ -190,6 +192,10 @@ def api_clusters():
     return jsonify({"clusters": [dict(p, **descriptions.get(p["cluster_id"], {}),
                                       example_skills=examples.get(p["cluster_id"], {}))
                                  for p in cluster_profiles_raw]})
+
+
+@app.route("/api/insights")
+def api_insights(): return jsonify(insights)
 
 
 @app.route("/api/health")

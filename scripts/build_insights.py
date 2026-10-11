@@ -6,7 +6,8 @@ dan Outputs/artifacts/cluster_prevalence.json untuk minat skill. Tidak butuh
 Colab dan tidak retraining.
 
 Jalankan: python scripts/build_insights.py   (setelah retraining, jalankan ulang)
-Hasil   : docs/insights/*.png, plus tabel markdown di stdout untuk README.
+Hasil   : docs/insights/*.png dan tabel markdown di stdout untuk README, plus
+          Outputs/artifacts/insights.json untuk view "The data" di aplikasi.
 """
 import json
 import os
@@ -29,6 +30,8 @@ DEMAND_SKILLS = ["lang__Rust", "lang__Go", "db__PostgreSQL", "plat__Kubernetes",
                  "lang__TypeScript", "lang__Python"]
 MIN_COUNTRY_N = 30  # negara dengan < 30 data gaji terlalu kecil untuk median yang stabil
 SALARY_RANGE = (5000, 500000)  # filter outlier yang sama dengan profile_clusters di notebook 03
+COMMON = 0.7        # skill yang sudah dipakai >= 70% persona: minat dari sisa kecil, tidak sebanding
+TOP_WANTED = 5
 
 SURFACE, INK, INK_2, GRID = "#fcfcfb", "#0b0b0b", "#52514e", "#e4e3df"
 BLUE, RED, NEUTRAL = "#2a78d6", "#e34948", "#f0efec"
@@ -156,7 +159,7 @@ def demand_chart(order, labels):
     ids = {v: k for k, v in labels.items()}
     want = np.array([[prev[ids[p]][s]["want"] * 100 for s in DEMAND_SKILLS] for p in order])
     have = np.array([[prev[ids[p]][s]["have"] * 100 for s in DEMAND_SKILLS] for p in order])
-    common = have >= 70  # skill yang sudah dipakai mayoritas persona: minat dari sisa kecil, tidak sebanding
+    common = have >= COMMON * 100
 
     fig, ax = plt.subplots(figsize=(11, 4.6))
     cmap = LinearSegmentedColormap.from_list("blues", BLUES)
@@ -218,6 +221,47 @@ def main():
     print(f"\nPorsi responden AS per persona: " +
           ", ".join(f"{short(p)} {v:.0f}%" for p, v in t.us_share.items()))
     print(f"Ditulis ke {DOCS}")
+    write_json(funnel, missing, t, d, labels, int(raw[SKILL_COLS].notna().all(axis=1).sum()))
+
+
+def write_json(funnel, missing, t, d, labels, all_six):
+    """Angka yang sama dengan README, untuk view "The data" dan blok persona di halaman hasil."""
+    prev = json.load(open(os.path.join(OUT, "artifacts", "cluster_prevalence.json")))
+    ids = {v: int(k) for k, v in labels.items()}
+    sal = salary(d)
+    med = sal.groupby(d.Country).median()
+    r1 = lambda v: round(float(v), 1)
+
+    def wanted(cid):
+        feats = [(f, v) for f, v in prev[str(cid)].items() if v["have"] < COMMON]
+        return [{"feature": f, "want": r1(v["want"] * 100), "have": r1(v["have"] * 100)}
+                for f, v in sorted(feats, key=lambda kv: -kv[1]["want"])[:TOP_WANTED]]
+
+    out = {
+        # label grafik berbahasa Indonesia; aplikasi berbahasa Inggris memberi labelnya sendiri
+        "funnel": dict(zip(("raw", "has_language", "kept"), (int(n) for _, n in funnel)),
+                       all_six=all_six),  # kalau keenam kolom wajib terisi
+        "missing": [{"col": c, "pct": r1(v)} for c, v in missing.sort_values(ascending=False).items()],
+        "salary": {"global_median": r1(sal.median()), "range": list(SALARY_RANGE),
+                   "min_country_n": MIN_COUNTRY_N,
+                   "country_medians": {c: r1(med[c]) for c in ("United States of America", "India")}},
+        "overall": {
+            "remote": r1((d.RemoteWork == "Remote").sum() / d.RemoteWork.notna().sum() * 100),
+            "under_25": r1(d.Age.isin(["Under 18 years old", "18-24 years old"]).mean() * 100),
+            "job_sat": r1(d.JobSat.mean()),
+        },
+        "common_cutoff": COMMON * 100,
+        "personas": [
+            {"cluster_id": ids[p], "persona_label": p, "n": int(r.n), "share": r1(r.share),
+             "years_code": r1(r.years_code), "under_25": r1(r.under_25), "us_share": r1(r.us_share),
+             "remote": r1(r.remote), "job_sat": r1(r.job_sat), "salary": r1(r.salary),
+             "vs_country": r1(r.vs_country), "wanted": wanted(ids[p])}
+            for p, r in t.iterrows()],
+    }
+    path = os.path.join(OUT, "artifacts", "insights.json")
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(out, f, ensure_ascii=False, separators=(",", ":"))
+    print(f"Ditulis ke {path} ({os.path.getsize(path) / 1024:.1f} KB)")
 
 
 if __name__ == "__main__":

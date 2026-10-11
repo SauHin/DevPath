@@ -176,7 +176,7 @@ DevPath/
 ├── scripts/
 │   ├── build_profiles.py                # prevalensi 186 skill + sinyal WantToWorkWith
 │   ├── build_examples.py                # stack contoh nyata per cluster (kartu landing)
-│   ├── build_insights.py                # grafik & tabel "Hasil Analisis Data"
+│   ├── build_insights.py                # grafik README + insights.json untuk aplikasi
 │   └── build_knn_index.py               # eksperimen pengganti UMAP (lihat catatan Deploy)
 │
 ├── docs/insights/                       # grafik analisis data untuk README
@@ -193,6 +193,7 @@ DevPath/
 │   │   ├── persona_labels.json          # cluster_id untuk nama persona
 │   │   ├── cluster_prevalence.json      # prevalensi & minat 186 skill per cluster
 │   │   ├── persona_descriptions.json    # deskripsi persona, di-key cluster_id
+│   │   ├── insights.json                # angka analisis data untuk view "The data"
 │   │   └── model_config.json            # Hyperparameter & metrik final
 │   │
 │   ├── templates/
