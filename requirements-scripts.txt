@@ -1,5 +1,6 @@
-# Dependency for scripts/build_profiles.py only. Not installed on Vercel or
-# in the Docker image, since app.py never imports pandas.
+# Dependencies for scripts/ only. Not installed on Vercel or in the Docker
+# image, since app.py never imports pandas or matplotlib.
 # Install alongside requirements.txt before running anything in scripts/:
 #   pip install -r requirements.txt -r requirements-scripts.txt
 pandas==3.0.5
+matplotlib==3.11.2  # scripts/build_insights.py

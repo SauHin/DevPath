@@ -3,7 +3,7 @@
   "functions": {
     "app.py": {
       "maxDuration": 60,
-      "excludeFiles": "{Dataset/**,notebooks/**,scripts/**,tests/**,Outputs/models/*.csv,Outputs/artifacts/svd_model.pkl,Dockerfile,.dockerignore,README.md}"
+      "excludeFiles": "{Dataset/**,notebooks/**,docs/**,scripts/**,tests/**,Outputs/models/*.csv,Outputs/artifacts/svd_model.pkl,Dockerfile,.dockerignore,README.md}"
     }
   }
 }
