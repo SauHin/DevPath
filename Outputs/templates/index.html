@@ -171,7 +171,7 @@ button.mark{cursor:pointer}
 .preview{padding:28px;display:flex;flex-direction:column;gap:20px}
 .pv-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
 .pv-ring{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;flex:0 0 auto;
-  background:conic-gradient(var(--lime-3) 0 87%, var(--sand-2) 87% 100%)}
+  background:conic-gradient(var(--lime-3) 0 var(--p,0%), var(--sand-2) var(--p,0%) 100%)}
 .pv-ring b{width:56px;height:56px;border-radius:50%;background:var(--card);display:grid;
   place-items:center;font-size:16px;font-weight:600;font-variant-numeric:tabular-nums}
 .pv-rows{display:flex;flex-direction:column;gap:11px}
@@ -552,17 +552,18 @@ footer{margin-top:96px;padding-bottom:64px}
         <div class="pv-head">
           <div>
             <div class="t-label">Sample Profile</div>
-            <div class="t-h3" style="margin-top:9px">Python Backend &amp; Data Developer</div>
-            <div class="t-small" style="margin-top:6px">Matched on six recorded tools</div>
+            <div class="t-h3" style="margin-top:9px" id="pvName">&nbsp;</div>
+            <div class="t-small" style="margin-top:6px" id="pvN">&nbsp;</div>
           </div>
-          <div class="pv-ring"><b>87%</b></div>
+          <div class="pv-ring" id="pvRing"><b id="pvPct">&nbsp;</b></div>
         </div>
         <hr class="rule">
-        <div class="pv-rows">
-          <div class="pv-row"><span class="t-small">Languages</span><span class="bar"><span style="transform:scaleX(.72)"></span></span><span class="v">72</span></div>
-          <div class="pv-row"><span class="t-small">Databases</span><span class="bar"><span style="transform:scaleX(.58)"></span></span><span class="v">58</span></div>
-          <div class="pv-row"><span class="t-small">Platforms &amp; Tools</span><span class="bar lime"><span style="transform:scaleX(.41)"></span></span><span class="v">41</span></div>
-          <div class="pv-row"><span class="t-small">Dev Environments</span><span class="bar"><span style="transform:scaleX(.66)"></span></span><span class="v">66</span></div>
+        <!-- Filled by renderSample() from a live prediction; four empty rows hold the height. -->
+        <div class="pv-rows" id="pvRows">
+          <div class="pv-row"><span class="t-small">&nbsp;</span><span class="bar"><span></span></span><span class="v"></span></div>
+          <div class="pv-row"><span class="t-small">&nbsp;</span><span class="bar"><span></span></span><span class="v"></span></div>
+          <div class="pv-row"><span class="t-small">&nbsp;</span><span class="bar"><span></span></span><span class="v"></span></div>
+          <div class="pv-row"><span class="t-small">&nbsp;</span><span class="bar"><span></span></span><span class="v"></span></div>
         </div>
         <div class="t-label" style="margin-top:auto">Sample result · coverage of the profile core skills</div>
       </div>
@@ -958,6 +959,7 @@ async function init(){
   // /#data is the shareable link to the analysis.
   setState(insights && location.hash === '#data' ? 'data' : 'landing');
   renderPlates();
+  renderSample();
   buildCats();
   wire();
   updateReq();
@@ -990,6 +992,33 @@ function renderPlates(){
 
   el('plates').querySelectorAll('[data-cid]').forEach(b =>
     b.addEventListener('click', () => worked(+b.dataset.cid)));
+}
+
+// The landing sample is a real respondent's stack run through the model, so its
+// figures are measured like any other result instead of written into the page.
+// Same stack as that profile's card, so clicking the card shows the full result.
+async function renderSample(){
+  const c = clusters.find(x => /python|data/i.test(x.persona_label)) || clusters[0];
+  if (!c || !c.example_skills) return;
+  try {
+    const d = await fetch('/api/predict', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({skills: c.example_skills})
+    }).then(r => r.json());
+    const cov = d.category_coverage || [];
+    if (!cov.length) return;
+    const pct = Math.round(d.confidence * 100);
+    el('pvName').textContent = d.persona_label;
+    el('pvN').textContent = `A real respondent's stack · ${d.total_skills_entered} recorded tools`;
+    el('pvPct').textContent = `${pct}%`;
+    el('pvRing').style.setProperty('--p', `${pct}%`);
+    // the four categories with the most core skills, kept in the API's order
+    const four = [...cov].sort((a, b) => b.core - a.core).slice(0, 4);
+    el('pvRows').innerHTML = cov.filter(r => four.includes(r)).map(r => `
+      <div class="pv-row"><span class="t-small">${esc(r.category)}</span>
+        <span class="bar${r.pct < 50 ? ' lime' : ''}"><span style="${scale(r.pct, 100)}"></span></span>
+        <span class="v">${Math.round(r.pct)}</span></div>`).join('');
+  } catch(e){ /* the card keeps its empty rows */ }
 }
 
 // A worked example: fill the sheet with a real stack recorded by someone in that
